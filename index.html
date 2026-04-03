@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio | Programmer & Network Engineer</title>
+<style>
+    /* Global Resets & Variables */
+    :root {
+        --blue: #2997ff;
+        --green: #30d158;
+        --red: #ff375f;
+        --amber: #ff9f0a;
+        --surf-1: #0a0a0a;
+        --surf-2: #111;
+        --surf-3: #1a1a1a;
+        --text-body: #f5f5f7;
+        --text-sec: #a1a1a6;
+        --text-muted: #6e6e73;
+        --border-color: rgba(255, 255, 255, 0.08);
+        --border: 0.5px solid var(--border-color);
+        --radius-lg: 18px;
+        --radius-sm: 12px;
+        --radius-pill: 980px;
+    }
+
+    *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background-color: #000;
+        color: var(--text-body);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        line-height: 1.5;
+        overflow-y: scroll;
+    }
+
+    /* Typography */
+    .gradient-text {
+        background: linear-gradient(180deg, #f5f5f7 0%, #6e6e73 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+    }
+
+    h1 {
+        font-size: 64px;
+        font-weight: 600;
+        letter-spacing: -1.5px;
+        line-height: 1.1;
+        margin-bottom: 24px;
+    }
+
+    h2 {
+        font-size: 48px;
+        font-weight: 600;
+        letter-spacing: -1px;
+        line-height: 1.2;
+        margin-bottom: 20px;
+    }
+
+    h3 {
+        font-size: 19px;
+        font-weight: 600;
+        letter-spacing: -0.5px;
+    }
+
+    p {
+        color: var(--text-sec);
+    }
+
+    /* Navigation */
+    nav {
+        position: sticky;
+        top: 0;
+        height: 48px;
+        background: rgba(0, 0, 0, 0.72);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 24px;
+        z-index: 1000;
+    }
+
+    .nav-logo {
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        color: var(--text-body);
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 24px;
+        list-style: none;
+    }
+
+    .nav-links li {
+        font-size: 14px;
+        font-weight: 400;
+        color: var(--text-sec);
+        cursor: pointer;
+        transition: color 0.2s ease;
+    }
+
+    .nav-links li:hover {
+        color: var(--text-body);
+    }
+
+    .nav-links li.active {
+        color: var(--text-body);
+    }
+
+    /* Page Container */
+    .page {
+        display: none;
+        max-width: 1048px;
+        margin: 0 auto;
+        padding: 80px 24px;
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    .page.active {
+        display: block;
+        animation: fadeUp 0.4s ease forwards;
+    }
+
+    @keyframes fadeUp {
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Buttons */
+    .btn-group {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        margin-top: 32px;
+    }
+
+    .btn {
+        padding: 12px 24px;
+        border-radius: var(--radius-pill);
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: transform 0.2s ease, filter 0.2s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn:hover {
+        transform: scale(1.02);
+    }
+
+    .btn:active {
+        transform: scale(0.98);
+    }
+
+    .btn-blue {
+        background: var(--blue);
+        color: #fff;
+        border: none;
+    }
+
+    .btn-ghost {
+        background: transparent;
+        color: var(--text-body);
+        border: var(--border);
+    }
+
+    /* Shared Layout Elements */
+    .hero-centered {
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto 64px auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .eyebrow {
+        color: var(--blue);
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 16px;
+    }
+
+    /* Stats Bar */
+    .stats-bar {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border: var(--border);
+        border-radius: var(--radius-sm);
+        margin-bottom: 64px;
+        background: var(--surf-1);
+    }
+
+    .stat-cell {
+        padding: 32px 24px;
+        text-align: center;
+        border-right: var(--border);
+    }
+
+    .stat-cell:last-child {
+        border-right: none;
+    }
+
+    .stat-number {
+        font-size: 32px;
+        font-weight: 600;
+        margin-bottom: 4px;
+    }
+
+    .stat-label {
+        font-size: 12px;
+        color: var(--text-muted);
+    }
+
+    /* Project Cards & Grid */
+    .project-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1px;
+        background: var(--border-color);
+        border: var(--border);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+    }
+
+    .project-card {
+        background: var(--surf-1);
+        padding: 28px;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .project-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(41, 151, 255, 0.08), transparent 60%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .project-card:hover::before {
+        opacity: 1;
+    }
+
+    .project-card > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    .card-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: var(--surf-3);
+        border: var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        margin-bottom: 24px;
+    }
+
+    .tag {
+        padding: 4px 10px;
+        border-radius: var(--radius-pill);
+        font-size: 12px;
+        font-weight: 500;
+        display: inline-block;
+        margin-bottom: 12px;
+    }
+
+    .tag.networking {
+        color: var(--blue);
+        background: rgba(41, 151, 255, 0.1);
+        border: 0.5px solid rgba(41, 151, 255, 0.2);
+    }
+
+    .tag.webdev {
+        color: var(--green);
+        background: rgba(48, 209, 88, 0.1);
+        border: 0.5px solid rgba(48, 209, 88, 0.2);
+    }
+
+    .tag.security {
+        color: var(--red);
+        background: rgba(255, 55, 95, 0.1);
+        border: 0.5px solid rgba(255, 55, 95, 0.2);
+    }
+
+    .tag.systems {
+        color: var(--amber);
+        background: rgba(255, 159, 10, 0.1);
+        border: 0.5px solid rgba(255, 159, 10, 0.2);
+    }
+
+    .card-title {
+        font-size: 19px;
+        font-weight: 600;
+        color: var(--text-body);
+        margin-bottom: 8px;
+    }
+
+    .card-desc {
+        font-size: 14px;
+        color: var(--text-sec);
+    }
+
+    .card-expand {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease, margin-top 0.4s ease;
+    }
+
+    .project-card:hover .card-expand {
+        max-height: 180px;
+        opacity: 1;
+        margin-top: 20px;
+    }
+
+    .stack-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 16px;
+    }
+
+    .stack-pill {
+        font-size: 11px;
+        color: var(--text-sec);
+        border: var(--border);
+        padding: 3px 8px;
+        border-radius: var(--radius-pill);
+        background: var(--surf-2);
+    }
+
+    .card-link {
+        font-size: 13px;
+        color: var(--blue);
+        font-weight: 500;
+    }
+
+    /* Project Detail Page */
+    .back-btn {
+        display: inline-flex;
+        align-items: center;
+        color: var(--text-sec);
+        font-size: 14px;
+        cursor: pointer;
+        margin-bottom: 32px;
+        transition: color 0.2s;
+    }
+
+    .back-btn:hover {
+        color: var(--text-body);
+    }
+
+    .detail-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin-top: 48px;
+    }
+
+    .detail-card {
+        background: var(--surf-1);
+        border: var(--border);
+        border-radius: var(--radius-lg);
+        padding: 32px;
+    }
+
+    .detail-card h3 {
+        margin-bottom: 24px;
+        font-size: 16px;
+        color: var(--text-body);
+    }
+
+    .feature-list {
+        list-style: none;
+    }
+
+    .feature-list li {
+        font-size: 14px;
+        color: var(--text-sec);
+        padding: 16px 0;
+        border-bottom: var(--border);
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .feature-list li:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .feature-list li::before {
+        content: "";
+        display: block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--blue);
+        margin-top: 6px;
+        flex-shrink: 0;
+    }
+
+    .detail-links {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 32px;
+        border-top: var(--border);
+        padding-top: 24px;
+    }
+
+    .detail-link-item {
+        color: var(--text-body);
+        font-size: 14px;
+        text-decoration: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .detail-link-item:hover {
+        color: var(--blue);
+    }
+
+    /* About Page Skills Grid */
+    .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        margin-top: 48px;
+    }
+
+    .skill-card {
+        background: var(--surf-1);
+        border: var(--border);
+        border-radius: var(--radius-lg);
+        padding: 32px;
+    }
+
+    .skill-card h3 {
+        margin-bottom: 24px;
+        font-size: 16px;
+    }
+
+    .skill-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+    }
+
+    .skill-row:last-child {
+        margin-bottom: 0;
+    }
+
+    .skill-name {
+        font-size: 14px;
+        color: var(--text-sec);
+    }
+
+    .progress-bar {
+        width: 60px;
+        height: 3px;
+        background: var(--surf-3);
+        border-radius: var(--radius-pill);
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: var(--blue);
+    }
+
+    /* Contact Page */
+    .contact-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        justify-content: center;
+        margin-top: 48px;
+    }
+
+    .contact-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 24px;
+        background: var(--surf-1);
+        border: var(--border);
+        border-radius: var(--radius-lg);
+        color: var(--text-body);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: transform 0.2s, border-color 0.2s, background 0.2s;
+    }
+
+    .contact-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(255, 255, 255, 0.2);
+        background: var(--surf-2);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        h1 { font-size: 48px; }
+        h2 { font-size: 36px; }
+        
+        .stats-bar {
+            grid-template-columns: 1fr 1fr;
+        }
+        .stat-cell:nth-child(1), .stat-cell:nth-child(2) {
+            border-bottom: var(--border);
+        }
+        .stat-cell:nth-child(2) {
+            border-right: none;
+        }
+        
+        .detail-grid, .skills-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .nav-links {
+            gap: 16px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .project-grid {
+            grid-template-columns: 1fr;
+        }
+        h1 { font-size: 40px; }
+    }
+</style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-logo" onclick="navigate('page-home', document.getElementById('nav-home'))">Jane Doe</div>
+        <ul class="nav-links">
+            <li id="nav-home" class="active" onclick="navigate('page-home', this)">Work</li>
+            <li id="nav-networking" onclick="navigate('page-networking', this)">Networking</li>
+            <li id="nav-about" onclick="navigate('page-about', this)">About</li>
+            <li id="nav-contact" onclick="navigate('page-contact', this)">Contact</li>
+        </ul>
+    </nav>
+
+    <!-- Page 1: Home (Work) -->
+    <main id="page-home" class="page active">
+        <div class="hero-centered">
+            <div class="eyebrow">Programmer & Network Engineer</div>
+            <h1 class="gradient-text">Architecting scalable code and resilient networks.</h1>
+            <p>Bridging the gap between software engineering and low-level network infrastructure with 4 years of hands-on experience in full-stack dev and enterprise routing.</p>
+            <div class="btn-group">
+                <a class="btn btn-blue" onclick="document.getElementById('home-projects-section').scrollIntoView({behavior: 'smooth'})">View Projects</a>
+                <a class="btn btn-ghost" onclick="navigate('page-about', document.getElementById('nav-about'))">About Me</a>
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-cell">
+                <div class="stat-number gradient-text">12+</div>
+                <div class="stat-label">Projects</div>
+            </div>
+            <div class="stat-cell">
+                <div class="stat-number gradient-text">4yr</div>
+                <div class="stat-label">Experience</div>
+            </div>
+            <div class="stat-cell">
+                <div class="stat-number gradient-text">3</div>
+                <div class="stat-label">Certifications</div>
+            </div>
+            <div class="stat-cell">
+                <div class="stat-number gradient-text">8k+</div>
+                <div class="stat-label">Lines of code</div>
+            </div>
+        </div>
+
+        <div id="home-projects-section">
+            <h3 style="margin-bottom: 24px; color: var(--text-body);">Selected Projects</h3>
+            <div id="home-grid" class="project-grid"></div>
+        </div>
+    </main>
+
+    <!-- Page 2: Networking -->
+    <main id="page-networking" class="page">
+        <h2 class="gradient-text">All Projects</h2>
+        <p style="margin-bottom: 48px; max-width: 600px;">A comprehensive view of my work across networking architecture, software development, systems automation, and security.</p>
+        <div id="networking-grid" class="project-grid"></div>
+    </main>
+
+    <!-- Page 4: About -->
+    <main id="page-about" class="page">
+        <h2 class="gradient-text">About Me</h2>
+        <p style="max-width: 700px; font-size: 16px;">
+            I am a multidisciplinary engineer specializing in building robust applications and the high-performance networks that deliver them. My background spans both traditional software development and physical/cloud infrastructure, allowing me to design full-stack solutions with performance, security, and scalability in mind from the metal up.
+        </p>
+
+        <div class="skills-grid">
+            <div class="skill-card">
+                <h3>Languages</h3>
+                <div class="skill-row"><span class="skill-name">Python</span><div class="progress-bar"><div class="progress-fill" style="width: 90%;"></div></div></div>
+                <div class="skill-row"><span class="skill-name">JavaScript/TS</span><div class="progress-bar"><div class="progress-fill" style="width: 85%;"></div></div></div>
+                <div class="skill-row"><span class="skill-name">Go</span><div class="progress-bar"><div class="progress-fill" style="width: 70%;"></div></div></div>
+                <div class="skill-row"><span class="skill-name">Bash</span><div class="progress-bar"><div class="progress-fill" style="width: 80%;"></div></div></div>
+            </div>
+            <div class="skill-card">
+                <h3>Networking</h3>
+                <div class="skill-row"><span class="skill-name">TCP/IP & DNS</span><div class="progress-bar"><div class="progress-fill" style="width: 95%;"></div></div></div>
+                <div class="skill-row"><span class="skill-name">Cisco IOS</span><div class="progress-bar"><div class="progress-fill" style="width: 85%;"></div></div></div>
+                <div class="skill-row"><span class="skill-name">Wireshark</span><div class="progress-bar"><div class="progress-fill" style="width: 90%;"></div></div></div>
+                <div class="skill-row"><span class="skill-name">BGP / OSPF</span><div class="progress-bar"><div class="progress-fill" style="width: 80%;"></div></div></div>
+            </div>
+            <div class="skill-card">
+                <h3>Infrastructure</h3>
+                <div class="skill-row"><span class="skill-name">Linux Admin</span><div class="progress-bar"><div class="progress-fill" style="width: 90%;"></div></div></div>
+                <div class="skill-row"><span class="skill-name">Docker</span><div class="progress-bar"><div class="progress-fill" style="width: 85%;"></div></div></div>
+                <div class="skill-row"><span class="skill-name">AWS</span><div class="progress-bar"><div class="progress-fill" style="width: 75%;"></div></div></div>
+                <div class="skill-row"><span class="skill-name">Terraform</span><div class="progress-bar"><div class="progress-fill" style="width: 65%;"></div></div></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Page 5: Contact -->
+    <main id="page-contact" class="page">
+        <div class="hero-centered" style="margin-bottom: 0;">
+            <h2 class="gradient-text">Let's build something great.</h2>
+            <p>I'm currently open for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!</p>
+            
+            <div class="contact-grid">
+                <a href="#" class="contact-card">
+                    <span>✉️</span> Email Me
+                </a>
+                <a href="#" class="contact-card">
+                    <span>🐙</span> GitHub
+                </a>
+                <a href="#" class="contact-card">
+                    <span>💼</span> LinkedIn
+                </a>
+                <a href="#" class="contact-card">
+                    <span>📄</span> Resume PDF
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Project Data
+        const projectsData = [
+            {
+                id: 'proj-1',
+                tag: 'Networking',
+                tagClass: 'networking',
+                icon: '🌐',
+                title: 'Enterprise BGP Migration',
+                desc: 'Redesigned core routing architecture using BGP and OSPF.',
+                stack: ['Cisco IOS', 'BGP', 'OSPF', 'Python Netmiko'],
+                full: 'A complete overhaul of an enterprise core network bridging three global datacenters. Transitioned from static/EIGRP to a robust BGP/OSPF dual-layer architecture, ensuring seamless failover and optimized pathing.',
+                features: ['Zero downtime migration strategy', 'Automated configuration generation via Python', 'Redundant pathing with BFD integration', 'Improved overall failover times by 40%'],
+                links: ['Architecture Diagram', 'Config Scripts GitHub']
+            },
+            {
+                id: 'proj-2',
+                tag: 'Web Dev',
+                tagClass: 'webdev',
+                icon: '💻',
+                title: 'Modern Cloud Portfolio',
+                desc: 'Single-page application portfolio with dynamic routing.',
+                stack: ['HTML/CSS/JS', 'Node.js', 'Express', 'Vercel'],
+                full: 'Developed a completely custom, dependency-free interactive web application. Focused on performance, semantic HTML, and utilizing the latest CSS features like CSS Grid and backdrop filters.',
+                features: ['100/100 Lighthouse Performance score', 'Custom vanilla JS routing engine', 'Responsive, dark-mode-first aesthetic', 'No external frameworks utilized'],
+                links: ['Live Site', 'Source Code']
+            },
+            {
+                id: 'proj-3',
+                tag: 'Security',
+                tagClass: 'security',
+                icon: '🔒',
+                title: 'Zero-Trust VPN Architecture',
+                desc: 'Deployed a zero-trust remote access solution for 500+ users.',
+                stack: ['WireGuard', 'Linux', 'Iptables', 'MFA'],
+                full: 'Designed and deployed a modern zero-trust network access (ZTNA) implementation replacing an aging IPSec VPN. Utilized WireGuard for high-throughput cryptography and integrated SAML-based MFA.',
+                features: ['Cryptographically verified endpoints', 'Role-based access controls via internal subnets', 'Granular iptables firewall policies', 'Integrated with existing identity provider'],
+                links: ['Deployment Docs', 'Audit Report']
+            },
+            {
+                id: 'proj-4',
+                tag: 'Systems',
+                tagClass: 'systems',
+                icon: '⚙️',
+                title: 'Automated CI/CD Pipeline',
+                desc: 'Built containerized build pipelines for microservices.',
+                stack: ['Docker', 'GitHub Actions', 'Bash', 'Linux'],
+                full: 'Streamlined the developer experience by migrating from manual deployments to a fully containerized CI/CD workflow. Code commits automatically trigger linting, testing, and staging environment pushes.',
+                features: ['Multi-stage Docker builds reducing image size', 'Automated security scanning of dependencies', 'Zero-downtime blue/green deployments', 'Comprehensive build logging and alerting'],
+                links: ['Workflow Config', 'Dockerfiles']
+            },
+            {
+                id: 'proj-5',
+                tag: 'Networking',
+                tagClass: 'networking',
+                icon: '📡',
+                title: 'Multi-Site SD-WAN',
+                desc: 'Deployed software-defined networking across 12 branches.',
+                stack: ['SD-WAN', 'IPSec', 'QoS', 'Monitoring'],
+                full: 'Replaced costly MPLS links with a resilient SD-WAN overlay running across dual broadband connections per site. Implemented strict Quality of Service (QoS) for VoIP and video conferencing traffic.',
+                features: ['Active-active link utilization', 'Sub-second traffic steering for real-time apps', 'Centralized orchestration dashboard setup', 'Reduced monthly WAN costs by 60%'],
+                links: ['Topology Map', 'Project Brief']
+            },
+            {
+                id: 'proj-6',
+                tag: 'Web Dev',
+                tagClass: 'webdev',
+                icon: '📊',
+                title: 'Network Traffic Analyzer',
+                desc: 'Full-stack dashboard for visualizing PCAP data.',
+                stack: ['Python', 'Flask', 'JavaScript', 'Chart.js'],
+                full: 'Created a web-based utility for network engineers to upload packet capture (PCAP) files and instantly receive visualizations of traffic flows, protocol distributions, and potential anomalies.',
+                features: ['Backend packet parsing utilizing PyShark', 'Interactive frontend charts and tables', 'Identification of top talkers and connections', 'Exportable PDF reporting'],
+                links: ['GitHub Repo', 'Live Demo']
+            }
+        ];
+
+        // Navigation Logic
+        function navigate(pageId, navElement) {
+            // Update nav links
+            document.querySelectorAll('.nav-links li').forEach(el => el.classList.remove('active'));
+            if (navElement) {
+                navElement.classList.add('active');
+            }
+
+            // Hide all pages, show target
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Render Cards
+        function renderCards(containerId, data) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = data.map(p => `
+                <div class="project-card" onclick="window.location.href = '${p.id}.html'">
+                    <div class="card-icon">${p.icon}</div>
+                    <div class="tag ${p.tagClass}">${p.tag}</div>
+                    <div class="card-title">${p.title}</div>
+                    <div class="card-desc">${p.desc}</div>
+                    <div class="card-expand">
+                        <div class="stack-pills">
+                            ${p.stack.map(s => `<span class="stack-pill">${s}</span>`).join('')}
+                        </div>
+                        <div class="card-link">View details →</div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Apply mouse-tracking glow
+            const cards = container.querySelectorAll('.project-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+                    card.style.setProperty('--mx', x + '%');
+                    card.style.setProperty('--my', y + '%');
+                });
+            });
+        }
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCards('home-grid', projectsData.slice(0, 4));
+            renderCards('networking-grid', projectsData);
+        });
+    </script>
+</body>
+</html>
