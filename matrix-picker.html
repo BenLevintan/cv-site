@@ -294,7 +294,7 @@
             <div class="hero-bg"></div>
             <h1 class="mono">Matrix Mask Picker</h1>
             <p>Visual binary matrix editor for optical hardware calibration</p>
-            <a href="https://github.com/BenLevintan/matrix_mask_picker-public-/tree/main/matrix_mask_picker" target="_blank" class="btn-github">
+            <a href="https://github.com/BenLevintan/matrix_mask_picker" target="_blank" class="btn-github">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
                 View on GitHub
             </a>
@@ -322,25 +322,143 @@
         </div>
         
         <div class="fade-in">
-            <h2>Matrix Types</h2>
-            <div class="card-grid">
-                <div class="type-card">
-                    <div class="mini-grid mg-12"></div>
-                    <h4 class="mono">Actuators Mask</h4>
-                    <p>12×12 grid, controls physical deformable mirror actuators.</p>
-                </div>
-                <div class="type-card">
-                    <div class="mini-grid mg-15"></div>
-                    <h4 class="mono">Lenslet Vector</h4>
-                    <p>15×16 grid, controls which lenslets in a wavefront sensor are active.</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="fade-in">
             <h2>Live Interactive Demo</h2>
-            <div class="demo-placeholder">
-                [ Live Demo Component Space ]
+            <div class="demo-wrap">
+                <style>
+                  .demo-wrap { padding: 1rem 0; font-family: monospace; }
+                  .demo-title { font-size: 13px; color: #888; margin-bottom: 1.5rem; text-align: center; }
+                  .matrices-row { display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; margin-bottom: 1.5rem; }
+                  .matrix-panel { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+                  .matrix-label { font-size: 12px; color: #888; letter-spacing: 0.08em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+                  .matrix-grid { display: grid; gap: 3px; padding: 12px; background: #1a1a1a; border-radius: 8px; border: 1px solid #2a2a2a; }
+                  .demo-cell { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-family: 'JetBrains Mono', monospace; font-weight: 500; border-radius: 4px; cursor: pointer; transition: transform 0.1s, opacity 0.15s; user-select: none; }
+                  .demo-cell:hover { transform: scale(1.15); z-index: 2; position: relative; }
+                  .demo-cell:active { transform: scale(0.95); }
+                  .demo-cell.on  { background: #1a7a45; color: #a3f0c0; }
+                  .demo-cell.off { background: #1a3a7a; color: #a3c0f0; }
+                  .demo-cell.modified.on  { background: #22c55e; color: #052e16; }
+                  .demo-cell.modified.off { background: #3b82f6; color: #eff6ff; }
+                  .controls-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 1.5rem; }
+                  .controls-row button { font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 6px 14px; cursor: pointer; border-radius: 8px; border: 1px solid #2a2a2a; background: #111; color: #ccc; transition: background 0.15s, border-color 0.15s; }
+                  .controls-row button:hover { background: #1e1e1e; }
+                  .controls-row button.accent { border-color: #22c55e; color: #22c55e; }
+                  .controls-row button.accent:hover { background: rgba(34,197,94,0.08); }
+                  .controls-row button.danger { border-color: #ef4444; color: #ef4444; }
+                  .controls-row button.danger:hover { background: rgba(239,68,68,0.08); }
+                  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+                  .stat { background: #1a1a1a; border-radius: 8px; padding: 10px 8px; text-align: center; border: 1px solid #2a2a2a; }
+                  .stat-n { font-size: 20px; font-weight: 500; color: #eee; font-family: 'JetBrains Mono', monospace; }
+                  .stat-l { font-size: 11px; color: #666; margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+                  .synced-yes { color: #22c55e !important; }
+                </style>
+
+                <p class="demo-title">click any cell to toggle — green = active (1), blue = inactive (0)</p>
+
+                <div class="matrices-row">
+                  <div class="matrix-panel">
+                    <div class="matrix-label">master</div>
+                    <div class="matrix-grid" id="master-grid" style="grid-template-columns: repeat(12, 28px);"></div>
+                  </div>
+                  <div class="matrix-panel">
+                    <div class="matrix-label">slave</div>
+                    <div class="matrix-grid" id="slave-grid" style="grid-template-columns: repeat(12, 28px);"></div>
+                  </div>
+                </div>
+
+                <div class="controls-row">
+                  <button onclick="mmRandomize()">random</button>
+                  <button class="accent" onclick="mmAllOn()">all on</button>
+                  <button class="danger" onclick="mmAllOff()">all off</button>
+                  <button class="accent" onclick="mmSync()">sync →</button>
+                  <button onclick="mmSave(this)">save csv</button>
+                </div>
+
+                <div class="stats-row">
+                  <div class="stat"><div class="stat-n" id="mm-total">144</div><div class="stat-l">total cells</div></div>
+                  <div class="stat"><div class="stat-n" id="mm-active">0</div><div class="stat-l">active (1)</div></div>
+                  <div class="stat"><div class="stat-n" id="mm-mod">0</div><div class="stat-l">modified</div></div>
+                  <div class="stat"><div class="stat-n" id="mm-sync">no</div><div class="stat-l">synced</div></div>
+                </div>
+                
+                <script>
+                  (function() {
+                    const R = 12, C = 12;
+                    let master = Array.from({length: R}, () => Array(C).fill(0));
+                    let slave  = Array.from({length: R}, () => Array(C).fill(0));
+                    let modM   = Array.from({length: R}, () => Array(C).fill(false));
+
+                    function renderGrid(id, mat, mod, editable) {
+                      const g = document.getElementById(id);
+                      g.innerHTML = '';
+                      mat.forEach((row, i) => row.forEach((v, j) => {
+                        const c = document.createElement('div');
+                        c.className = 'demo-cell ' + (v ? 'on' : 'off') + (mod[i][j] ? ' modified' : '');
+                        c.textContent = v;
+                        if (editable) c.onclick = () => {
+                          mat[i][j] ^= 1;
+                          modM[i][j] = true;
+                          renderAll();
+                        };
+                        g.appendChild(c);
+                      }));
+                    }
+
+                    function renderAll() {
+                      renderGrid('master-grid', master, modM, true);
+                      renderGrid('slave-grid',  slave,  Array.from({length: R}, () => Array(C).fill(false)), false);
+                      updateStats();
+                    }
+
+                    function updateStats() {
+                      const active  = master.flat().reduce((a, v) => a + v, 0);
+                      const mods    = modM.flat().filter(Boolean).length;
+                      const synced  = JSON.stringify(master) === JSON.stringify(slave);
+                      document.getElementById('mm-active').textContent = active;
+                      document.getElementById('mm-mod').textContent    = mods;
+                      const ss = document.getElementById('mm-sync');
+                      ss.textContent = synced ? 'yes' : 'no';
+                      ss.className   = 'stat-n' + (synced ? ' synced-yes' : '');
+                    }
+
+                    window.mmRandomize = function() {
+                      master = Array.from({length: R}, () => Array.from({length: C}, () => Math.random() < 0.5 ? 1 : 0));
+                      modM   = Array.from({length: R}, () => Array(C).fill(false));
+                      renderAll();
+                    };
+
+                    window.mmAllOn = function() {
+                      master = Array.from({length: R}, () => Array(C).fill(1));
+                      modM   = Array.from({length: R}, () => Array(C).fill(true));
+                      renderAll();
+                    };
+
+                    window.mmAllOff = function() {
+                      master = Array.from({length: R}, () => Array(C).fill(0));
+                      modM   = Array.from({length: R}, () => Array(C).fill(true));
+                      renderAll();
+                    };
+
+                    window.mmSync = function() {
+                      slave = master.map(r => [...r]);
+                      renderAll();
+                    };
+
+                    window.mmSave = function(btn) {
+                      const csv  = master.map(r => r.join(',')).join('\n');
+                      const blob = new Blob([csv], {type: 'text/csv'});
+                      const a    = document.createElement('a');
+                      a.href     = URL.createObjectURL(blob);
+                      a.download = 'mask_matrix.csv';
+                      a.click();
+                      const orig = btn.textContent;
+                      btn.textContent = 'saved!';
+                      btn.style.color = '#22c55e';
+                      setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 1800);
+                    };
+
+                    renderAll();
+                  })();
+                </script>
             </div>
         </div>
         
