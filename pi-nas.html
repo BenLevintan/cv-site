@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pi-NAS | Project Showcase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;600&family=Geist:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #111111;
+            --text: #f5f5f7;
+            --text-muted: #a1a1a6;
+            --card-bg: #1c1c1c;
+            --border: #333333;
+            --accent: #0066ff;
+            --highlight-bg: rgba(0, 102, 255, 0.1);
+            --discord-accent: #5865F2;
+            --discord-bg: #36393f;
+            --discord-text: #dcddde;
+            --discord-time: #72767d;
+        }
+
+        body.light-mode {
+            --bg: #fdfdfd;
+            --text: #111111;
+            --text-muted: #555555;
+            --card-bg: #ffffff;
+            --border: #e0e0e0;
+            --highlight-bg: rgba(0, 102, 255, 0.05);
+            --discord-bg: #f2f3f5;
+            --discord-text: #2e3338;
+            --discord-time: #747f8d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Geist', sans-serif;
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        .mono {
+            font-family: 'Geist Mono', monospace;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(var(--bg), 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        .back-link {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--accent);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--accent);
+        }
+
+        /* Layout & Typography */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+
+        .project-section {
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .project-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 32px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .section-title i {
+            color: var(--accent);
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: var(--text-muted);
+        }
+
+        strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 80px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .hero .tagline {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+        }
+
+        .stat-pills {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .stat-pill {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent);
+            font-family: 'Geist Mono', monospace;
+        }
+
+        /* Cards & Grids */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+            border-color: var(--accent);
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        /* Architecture Diagram (CSS) */
+        .arch-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px 24px;
+        }
+
+        .arch-layer {
+            width: 100%;
+            max-width: 600px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        .arch-layer strong {
+            color: var(--accent);
+        }
+
+        .arch-arrow {
+            color: var(--accent);
+            font-size: 1.5rem;
+            animation: pulse-down 2s infinite;
+        }
+
+        @keyframes pulse-down {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
+        }
+
+        /* Highlight Blocks */
+        .highlight-block {
+            background: var(--highlight-bg);
+            border-left: 4px solid var(--accent);
+            padding: 20px 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 24px 0;
+        }
+
+        .highlight-block ul {
+            margin-top: 12px;
+            margin-left: 20px;
+            color: var(--text-muted);
+        }
+
+        .highlight-block li {
+            margin-bottom: 8px;
+        }
+
+        /* Code Blocks */
+        pre {
+            background: #0d0d0d !important;
+            border: 1px solid var(--border);
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-top: 16px;
+        }
+
+        pre code {
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.85rem;
+            color: #e6e6e6;
+        }
+
+        /* Images */
+        .full-img {
+            width: 100%;
+            max-width: 900px;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            margin: 0 auto 24px;
+            display: block;
+        }
+
+        .centered-img {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            margin: 0 auto 24px;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .centered-img:hover {
+            transform: scale(1.02);
+        }
+
+        .img-caption {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 40px;
+        }
+
+        /* Pipeline Steps */
+        .pipeline-steps {
+            list-style-type: decimal;
+            margin-left: 20px;
+            color: var(--text-muted);
+        }
+
+        .pipeline-steps li {
+            margin-bottom: 16px;
+            padding-left: 8px;
+        }
+
+        .pipeline-steps li strong {
+            color: var(--text);
+        }
+
+        /* Discord Card */
+        .discord-card {
+            border-left: 4px solid var(--discord-accent);
+            background: var(--card-bg);
+            border-radius: 0 16px 16px 0;
+            padding: 24px;
+            margin-top: 24px;
+        }
+
+        .discord-bubble {
+            background: var(--discord-bg);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            gap: 16px;
+            color: var(--discord-text);
+            margin-top: 16px;
+        }
+
+        .d-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--discord-accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+            color: #fff;
+        }
+
+        .d-header { margin-bottom: 6px; }
+        .d-header strong { color: var(--text); font-weight: 600; margin-right: 8px; }
+        .d-time { color: var(--discord-time); font-size: 0.75rem; }
+        .d-body { font-size: 0.95rem; line-height: 1.5; }
+
+        /* Tech Logo Pills */
+        .tech-pills {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .tech-pill {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 8px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 48px;
+            transition: border-color 0.2s;
+        }
+        
+        .tech-pill:hover {
+            border-color: var(--accent);
+        }
+
+        .tech-pill img {
+            max-height: 24px;
+            object-fit: contain;
+            filter: grayscale(100%) opacity(0.8);
+            transition: filter 0.3s;
+        }
+
+        .tech-pill:hover img {
+            filter: grayscale(0%) opacity(1);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .section-title { font-size: 1.5rem; }
+            .card-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Portfolio</a>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode"><i class="fa-solid fa-moon"></i></button>
+    </nav>
+
+    <div class="container">
+        
+        <!-- Hero -->
+        <section class="project-section hero">
+            <h1>Pi-NAS — Self-Hosted Home Server</h1>
+            <p class="tagline">Fully automated media pipeline and personal cloud, running 24/7 on ARM hardware</p>
+            <div class="stat-pills">
+                <div class="stat-pill">24/7 Uptime</div>
+                <div class="stat-pill">1.9TB Storage</div>
+                <div class="stat-pill">7 Containers Running</div>
+                <div class="stat-pill">Zero Port Forwarding</div>
+            </div>
+        </section>
+
+        <!-- System Architecture Diagram -->
+        <section class="project-section">
+            <h2 class="section-title"><i class="fa-solid fa-layer-group"></i> System Architecture Diagram</h2>
+            <div class="arch-diagram">
+                <div class="arch-layer"><strong>Layer 1 — Compute:</strong> Raspberry Pi 5 (4GB) · Debian Lite 64-bit (headless)</div>
+                <div class="arch-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+                <div class="arch-layer"><strong>Layer 2 — Storage:</strong> Two nodes: 2TB SSD (Media + Docker) and 120GB SSD (Backup Vault)</div>
+                <div class="arch-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+                <div class="arch-layer"><strong>Layer 3 — Networking:</strong> Tailscale WireGuard Mesh · 100.x.x.x static IP · No port forwarding</div>
+                <div class="arch-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+                <div class="arch-layer"><strong>Layer 4 — Container Orchestration:</strong> Docker + Compose · Custom bridge network · PUID/PGID mapping</div>
+                <div class="arch-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+                <div class="arch-layer"><strong>Layer 5 — Services:</strong> Jellyfin · Sonarr · Radarr · Prowlarr · qBittorrent · OpenMediaVault</div>
+                <div class="arch-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+                <div class="arch-layer"><strong>Layer 6 — Notifications:</strong> Discord Bot → Prowlarr API → New episode alerts</div>
+            </div>
+        </section>
+
+        <!-- The Storage Architecture -->
+        <section class="project-section">
+            <h2 class="section-title"><i class="fa-solid fa-hard-drive"></i> The Storage Architecture</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3 class="mono">Main Array (2TB)</h3>
+                    <p>OpenMediaVault manages mounting, Btrfs filesystem, permissions, and SMB/NFS shares. All Docker containers bind-mount their volumes here. All media output lands here.</p>
+                </div>
+                <div class="card">
+                    <h3 class="mono">Backup Vault (120GB)</h3>
+                    <p>Not for media — strategically used for what matters: Docker compose files, container appdata and config directories (Sonarr databases, Jellyfin watch history), and personal photos and videos. Weekly automated sync via cron + rsync.</p>
+                </div>
+            </div>
+            <pre><code># Weekly cron job — backs up critical NAS state
+rsync -avh --delete /mnt/main/appdata/ /mnt/backup/appdata/
+rsync -avh --delete /mnt/main/photos/  /mnt/backup/photos/</code></pre>
+        </section>
+
+        <!-- Networking & Security -->
+        <section class="project-section">
+            <h2 class="section-title"><i class="fa-solid fa-shield-halved"></i> Networking & Security — The Tailscale Mesh</h2>
+            <div class="highlight-block">
+                <strong>No ports are forwarded. The server is completely invisible to port scanners on the public internet.</strong>
+                <ul>
+                    <li>Tailscale runs WireGuard under the hood — authenticates via coordination server, then creates direct encrypted peer-to-peer tunnels between devices.</li>
+                    <li>The Pi receives a static 100.x.x.x IP — SSH, OMV dashboard, and Jellyfin are all accessible remotely as if on local Wi-Fi.</li>
+                    <li>Works on the OnePlus phone, laptop, anywhere — no dynamic DNS, no open ports, no exposure.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- The Media Pipeline -->
+        <section class="project-section">
+            <h2 class="section-title"><i class="fa-solid fa-network-wired"></i> The Media Pipeline — How It All Connects</h2>
+            <img src="assets/video_stack_diagram.png" alt="The Media Pipeline Diagram" class="full-img">
+            <p class="img-caption">The complete automated media pipeline — from indexer search to Jellyfin library, with Discord notifications on completion.</p>
+            
+            <ol class="pipeline-steps">
+                <li><strong>Indexer Sync</strong> — Prowlarr manages all torrent indexers and injects their configs directly into Sonarr and Radarr via API keys.</li>
+                <li><strong>The Trigger</strong> — When Sonarr or Radarr decides a release matches quality profiles, it fires an API call to qBittorrent with the magnet link and target download directory on the 1.9TB drive.</li>
+                <li><strong>Download</strong> — qBittorrent handles the transfer to the <code>/incomplete</code> directory.</li>
+                <li><strong>Hardlink Move</strong> — Sonarr/Radarr detect completion and perform an atomic hardlink to <code>/media</code> — instant regardless of file size because source and destination are on the same physical drive.</li>
+                <li><strong>Library Update</strong> — Jellyfin detects the new file via inotify filesystem events, scrapes TMDB/TVDB for posters and metadata, and updates the UI on Google TV.</li>
+                <li><strong>Notification</strong> — The Discord bot fires a message to a Discord channel: new episode is ready to watch.</li>
+            </ol>
+
+            <div class="highlight-block">
+                "Hardlinks mean a 5GB file 'moves' in milliseconds — no data is copied, the filesystem just creates a second pointer to the same blocks on disk."
+            </div>
+        </section>
+
+        <!-- Discord Notification Bot -->
+        <section class="project-section">
+            <h2 class="section-title"><i class="fa-brands fa-discord"></i> Discord Notification Bot</h2>
+            <div class="discord-card">
+                <p>A custom Discord bot connects to the Prowlarr API and sends a notification to a private Discord channel the moment a new episode finishes processing and lands in Jellyfin. No polling, no manual checking.</p>
+                
+                <div class="discord-bubble">
+                    <div class="d-icon"><i class="fa-solid fa-robot"></i></div>
+                    <div class="d-content">
+                        <div class="d-header"><strong>NAS Bot</strong> <span class="d-time">Today at 21:34</span></div>
+                        <div class="d-body">
+                            🎬 New episode ready: The Last of Us S02E03<br>
+                            ✅ Added to Jellyfin · Ready to stream
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hardware Specifications -->
+        <section class="project-section">
+            <h2 class="section-title"><i class="fa-solid fa-microchip"></i> Hardware Specifications</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3 class="mono">Compute</h3>
+                    <p>Raspberry Pi 5 (4GB RAM) — Debian Lite 64-bit, headless</p>
+                </div>
+                <div class="card">
+                    <h3 class="mono">Primary Storage</h3>
+                    <p>2TB SATA SSD — main media + Docker data pool</p>
+                </div>
+                <div class="card">
+                    <h3 class="mono">Backup Storage</h3>
+                    <p>120GB SATA SSD — configs, appdata, personal photos/videos</p>
+                </div>
+                <div class="card">
+                    <h3 class="mono">SATA Expansion</h3>
+                    <p>RADXA Penta SATA HAT</p>
+                </div>
+                <div class="card">
+                    <h3 class="mono">Enclosure</h3>
+                    <p>3D-printed 4-bay NAS case (dark marine green, Bambu Lab printer)</p>
+                </div>
+                <div class="card">
+                    <h3 class="mono">Cooling</h3>
+                    <p>Active heatsink + fan, physically modified to clear the Pi 5 power connector</p>
+                </div>
+                <div class="card">
+                    <h3 class="mono">Network</h3>
+                    <p>Native Gigabit Ethernet (Pi 5 onboard)</p>
+                </div>
+                <div class="card">
+                    <h3 class="mono">Power</h3>
+                    <p>12V/5A barrel jack supply</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Container Services Grid -->
+        <section class="project-section">
+            <h2 class="section-title"><i class="fa-brands fa-docker"></i> Container Services</h2>
+            <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+                <div class="card">
+                    <h3 class="mono">Jellyfin</h3>
+                    <p>Media server, scrapes TMDB/TVDB metadata, streams to Google TV + phone via Tailscale.</p>
+                </div>
+                <div class="card">
+                    <h3 class="mono">Sonarr</h3>
+                    <p>TV automation: monitors RSS feeds, matches quality profiles, triggers downloads.</p>
+                </div>
+                <div class="card">
+                    <h3 class="mono">Radarr</h3>
+                    <p>Same as Sonarr, dedicated specifically for automated movie library management.</p>
+                </div>
+                <div class="card">
+                    <h3 class="mono">Prowlarr</h3>
+                    <p>Indexer aggregator, pushes configs to Sonarr/Radarr via API, notifies Discord bot.</p>
+                </div>
+                <div class="card">
+                    <h3 class="mono">qBittorrent</h3>
+                    <p>Download client, receives API calls with magnet links directly from Sonarr/Radarr.</p>
+                </div>
+                <div class="card">
+                    <h3 class="mono">OpenMediaVault</h3>
+                    <p>NAS management: mounts drives, Btrfs filesystem, SMB/NFS shares, permissions, monitoring.</p>
+                </div>
+            </div>
+            
+            <div class="tech-pills">
+                <div class="tech-pill"><img src="assets/Raspbarr-Pi_logo.png" alt="Raspberry Pi"></div>
+                <div class="tech-pill"><img src="assets/Docker_Logo.png" alt="Docker"></div>
+                <div class="tech-pill"><img src="assets/debian_logo.png" alt="Debian"></div>
+                <div class="tech-pill"><img src="assets/Tailscale_Logo.png" alt="Tailscale"></div>
+                <div class="tech-pill"><img src="assets/Openmediavault_logo.png" alt="OpenMediaVault"></div>
+                <div class="tech-pill"><img src="assets/JellyFin_Logo.png" alt="Jellyfin"></div>
+                <div class="tech-pill"><img src="assets/radxa_logo.png" alt="Radxa"></div>
+            </div>
+        </section>
+
+        <!-- Completed Build Photo -->
+        <section class="project-section">
+            <h2 class="section-title"><i class="fa-solid fa-camera"></i> Completed Build Photo</h2>
+            <img src="assets/NAS_complete.jpg" alt="Completed Pi-NAS Build" class="centered-img">
+            <p class="img-caption">The completed build in its custom 3D-printed enclosure — dark marine green, four-bay, running 24/7.</p>
+        </section>
+
+        <!-- Technical Challenges & Solutions -->
+        <section class="project-section">
+            <h2 class="section-title"><i class="fa-solid fa-wrench"></i> Technical Challenges & Solutions</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3 class="mono">PUID/PGID Permission Mapping</h3>
+                    <p>All containers share matching user IDs so every service reads and writes as the same system user — ensuring no "permission denied" errors occur as files move across the pipeline.</p>
+                </div>
+                <div class="card">
+                    <h3 class="mono">Hardlink-Compatible Folders</h3>
+                    <p>Download and media directories must live on the same physical volume and dataset. The entire directory tree was architected around this constraint from the start to ensure instant transfers.</p>
+                </div>
+                <div class="card">
+                    <h3 class="mono">Cooling Clearance Conflict</h3>
+                    <p>The active cooler physically conflicted with the Pi 5 power connector when mounted. This required a delicate physical modification to the heatsink mount to safely fit inside the 3D-printed enclosure.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // Theme Toggle Logic
+        const themeBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+        const icon = themeBtn.querySelector('i');
+        
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') {
+            body.classList.add('light-mode');
+            icon.classList.replace('fa-moon', 'fa-sun');
+        }
+        
+        themeBtn.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+            const isLight = body.classList.contains('light-mode');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            
+            if (isLight) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+        });
+
+        // Scroll Animations Observer
+        document.addEventListener("DOMContentLoaded", () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.project-section').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
