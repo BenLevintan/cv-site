@@ -386,11 +386,12 @@
             align-items: center;
             justify-content: center;
             height: 48px;
-            transition: border-color 0.2s;
+            transition: border-color 0.2s, background-color 0.2s;
         }
         
         .tech-pill:hover {
             border-color: var(--accent);
+            background-color: var(--border);
         }
 
         .tech-pill img {
@@ -426,7 +427,7 @@
             <p class="tagline">Fully automated media pipeline and personal cloud, running 24/7 on ARM hardware</p>
             <div class="stat-pills">
                 <div class="stat-pill">24/7 Uptime</div>
-                <div class="stat-pill">1.9TB Storage</div>
+                <div class="stat-pill">2TB Storage</div>
                 <div class="stat-pill">7 Containers Running</div>
                 <div class="stat-pill">Zero Port Forwarding</div>
             </div>
@@ -484,12 +485,12 @@ rsync -avh --delete /mnt/main/photos/  /mnt/backup/photos/</code></pre>
         <!-- The Media Pipeline -->
         <section class="project-section">
             <h2 class="section-title"><i class="fa-solid fa-network-wired"></i> The Media Pipeline — How It All Connects</h2>
-            <img src="assets/video_stack_diagram.png" alt="The Media Pipeline Diagram" class="full-img">
+            <img src="assets/video stack diagram.png" alt="The Media Pipeline Diagram" class="full-img">
             <p class="img-caption">The complete automated media pipeline — from indexer search to Jellyfin library, with Discord notifications on completion.</p>
             
             <ol class="pipeline-steps">
                 <li><strong>Indexer Sync</strong> — Prowlarr manages all torrent indexers and injects their configs directly into Sonarr and Radarr via API keys.</li>
-                <li><strong>The Trigger</strong> — When Sonarr or Radarr decides a release matches quality profiles, it fires an API call to qBittorrent with the magnet link and target download directory on the 1.9TB drive.</li>
+                <li><strong>The Trigger</strong> — When Sonarr or Radarr decides a release matches quality profiles, it fires an API call to qBittorrent with the magnet link and target download directory on the 2TB drive.</li>
                 <li><strong>Download</strong> — qBittorrent handles the transfer to the <code>/incomplete</code> directory.</li>
                 <li><strong>Hardlink Move</strong> — Sonarr/Radarr detect completion and perform an atomic hardlink to <code>/media</code> — instant regardless of file size because source and destination are on the same physical drive.</li>
                 <li><strong>Library Update</strong> — Jellyfin detects the new file via inotify filesystem events, scrapes TMDB/TVDB for posters and metadata, and updates the UI on Google TV.</li>
@@ -542,7 +543,9 @@ rsync -avh --delete /mnt/main/photos/  /mnt/backup/photos/</code></pre>
                 </div>
                 <div class="card">
                     <h3 class="mono">Enclosure</h3>
-                    <p>3D-printed 4-bay NAS case (dark marine green, Bambu Lab printer)</p>
+                    <p>3D-printed 4-bay NAS case (dark marine green, Bambu Lab printer). Massive thanks to <strong>Omri Buhbut</strong> for the 3D printing assistance!
+                    <a href="https://github.com/omrib787" target="_blank" style="color: var(--text); text-decoration: none; margin-left: 4px;" title="GitHub"><i class="fa-brands fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/omri-buhbut-90b953243/" target="_blank" style="color: var(--accent); text-decoration: none; margin-left: 4px;" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a></p>
                 </div>
                 <div class="card">
                     <h3 class="mono">Cooling</h3>
@@ -603,7 +606,7 @@ rsync -avh --delete /mnt/main/photos/  /mnt/backup/photos/</code></pre>
         <!-- Completed Build Photo -->
         <section class="project-section">
             <h2 class="section-title"><i class="fa-solid fa-camera"></i> Completed Build Photo</h2>
-            <img src="assets/NAS_complete.jpg" alt="Completed Pi-NAS Build" class="centered-img">
+            <img src="assets/NAS_complete.png" alt="Completed Pi-NAS Build" class="centered-img">
             <p class="img-caption">The completed build in its custom 3D-printed enclosure — dark marine green, four-bay, running 24/7.</p>
         </section>
 
