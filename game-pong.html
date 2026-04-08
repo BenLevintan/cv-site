@@ -98,7 +98,7 @@
             // Paddle collisions
             let playerCollision = ball.x + ballSize > player.x && ball.y > player.y && ball.y < player.y + paddleHeight;
             let aiCollision = ball.x < ai.x + paddleWidth && ball.y > ai.y && ball.y < ai.y + paddleHeight;
-            if (playerCollision || aiCollision) ball.dx *= -1.05; // speed up slightly
+            if (playerCollision || aiCollision) ball.dx *= -1.005; // speed up slightly
         }
 
         function loop() {
