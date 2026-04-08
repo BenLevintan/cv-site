@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playground | Snake</title>
+    <style>
+        body {
+            background: #171a21;
+            color: #c7d5e0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 50px;
+            margin: 0;
+        }
+        .nav {
+            width: 400px;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .nav a {
+            color: #66c0f4;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .nav a:hover { color: #fff; }
+        canvas {
+            background: #000;
+            border: 2px solid #2a475e;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+        .score-board {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #a4d007;
+        }
+        .controls {
+            margin-top: 20px;
+            color: #8f98a0;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="playground.html">← Back to Store</a>
+        <span>CLASSIC SNAKE</span>
+    </div>
+    <div class="score-board">Score: <span id="score">0</span></div>
+    <canvas width="400" height="400" id="game"></canvas>
+    <div class="controls">Use Arrow Keys to move.</div>
+
+    <script>
+        const canvas = document.getElementById('game');
+        const context = canvas.getContext('2d');
+        const grid = 16;
+        let count = 0;
+        let score = 0;
+        
+        let snake = {
+            x: 160, y: 160,
+            dx: grid, dy: 0,
+            cells: [],
+            maxCells: 4
+        };
+        let apple = { x: 320, y: 320 };
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        function loop() {
+            requestAnimationFrame(loop);
+            if (++count < 6) return; // Slows down game loop
+            count = 0;
+            context.clearRect(0,0,canvas.width,canvas.height);
+
+            // Move snake
+            snake.x += snake.dx;
+            snake.y += snake.dy;
+
+            // Wrap screen
+            if (snake.x < 0) snake.x = canvas.width - grid;
+            else if (snake.x >= canvas.width) snake.x = 0;
+            if (snake.y < 0) snake.y = canvas.height - grid;
+            else if (snake.y >= canvas.height) snake.y = 0;
+
+            snake.cells.unshift({x: snake.x, y: snake.y});
+            if (snake.cells.length > snake.maxCells) snake.cells.pop();
+
+            // Draw apple
+            context.fillStyle = '#ff375f';
+            context.fillRect(apple.x, apple.y, grid-1, grid-1);
+
+            // Draw snake
+            context.fillStyle = '#a4d007';
+            snake.cells.forEach(function(cell, index) {
+                context.fillRect(cell.x, cell.y, grid-1, grid-1);
+                if (cell.x === apple.x && cell.y === apple.y) {
+                    snake.maxCells++;
+                    score += 10;
+                    document.getElementById('score').innerText = score;
+                    apple.x = getRandomInt(0, 25) * grid;
+                    apple.y = getRandomInt(0, 25) * grid;
+                }
+                for (let i = index + 1; i < snake.cells.length; i++) {
+                    if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+                        snake.x = 160; snake.y = 160;
+                        snake.cells = []; snake.maxCells = 4;
+                        snake.dx = grid; snake.dy = 0;
+                        score = 0;
+                        document.getElementById('score').innerText = score;
+                    }
+                }
+            });
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.which === 37 && snake.dx === 0) { snake.dx = -grid; snake.dy = 0; } // left
+            else if (e.which === 38 && snake.dy === 0) { snake.dy = -grid; snake.dx = 0; } // up
+            else if (e.which === 39 && snake.dx === 0) { snake.dx = grid; snake.dy = 0; } // right
+            else if (e.which === 40 && snake.dy === 0) { snake.dy = grid; snake.dx = 0; } // down
+        });
+
+        requestAnimationFrame(loop);
+    </script>
+</body>
+</html>

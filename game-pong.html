@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playground | Pong</title>
+    <style>
+        body {
+            background: #171a21;
+            color: #c7d5e0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 50px;
+            margin: 0;
+        }
+        .nav {
+            width: 600px;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .nav a {
+            color: #66c0f4;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .nav a:hover { color: #fff; }
+        canvas {
+            background: #000;
+            border: 2px solid #2a475e;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+        .controls {
+            margin-top: 20px;
+            color: #8f98a0;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="playground.html">← Back to Store</a>
+        <span>RETRO PONG</span>
+    </div>
+    <canvas width="600" height="400" id="game"></canvas>
+    <div class="controls">Use Mouse or Up/Down arrows to move the right paddle.</div>
+
+    <script>
+        const canvas = document.getElementById('game');
+        const context = canvas.getContext('2d');
+        
+        const paddleHeight = 80;
+        const paddleWidth = 10;
+        const ballSize = 10;
+        
+        let player = { x: canvas.width - 20, y: canvas.height/2 - paddleHeight/2, score: 0 };
+        let ai = { x: 10, y: canvas.height/2 - paddleHeight/2, score: 0 };
+        let ball = { x: canvas.width/2, y: canvas.height/2, dx: 4, dy: 4 };
+
+        function drawRect(x, y, w, h, color) {
+            context.fillStyle = color;
+            context.fillRect(x, y, w, h);
+        }
+        
+        function drawText(text, x, y) {
+            context.fillStyle = "#fff";
+            context.font = "32px Arial";
+            context.fillText(text, x, y);
+        }
+
+        function resetBall() {
+            ball.x = canvas.width / 2;
+            ball.y = canvas.height / 2;
+            ball.dx *= -1;
+        }
+
+        canvas.addEventListener('mousemove', (e) => {
+            let rect = canvas.getBoundingClientRect();
+            player.y = e.clientY - rect.top - paddleHeight/2;
+        });
+
+        function update() {
+            ball.x += ball.dx;
+            ball.y += ball.dy;
+
+            // Simple AI
+            ai.y += ((ball.y - (ai.y + paddleHeight/2))) * 0.08;
+
+            // Wall collisions (top/bottom)
+            if (ball.y + ballSize > canvas.height || ball.y < 0) ball.dy *= -1;
+
+            // Scoring
+            if (ball.x < 0) { player.score++; resetBall(); }
+            else if (ball.x + ballSize > canvas.width) { ai.score++; resetBall(); }
+
+            // Paddle collisions
+            let playerCollision = ball.x + ballSize > player.x && ball.y > player.y && ball.y < player.y + paddleHeight;
+            let aiCollision = ball.x < ai.x + paddleWidth && ball.y > ai.y && ball.y < ai.y + paddleHeight;
+            if (playerCollision || aiCollision) ball.dx *= -1.05; // speed up slightly
+        }
+
+        function loop() {
+            update();
+            drawRect(0, 0, canvas.width, canvas.height, '#000'); // clear
+            drawRect(player.x, player.y, paddleWidth, paddleHeight, '#66c0f4');
+            drawRect(ai.x, ai.y, paddleWidth, paddleHeight, '#ff375f');
+            drawRect(ball.x, ball.y, ballSize, ballSize, '#fff');
+            drawText(ai.score, canvas.width/4, 50);
+            drawText(player.score, 3*canvas.width/4, 50);
+            requestAnimationFrame(loop);
+        }
+        requestAnimationFrame(loop);
+    </script>
+</body>
+</html>

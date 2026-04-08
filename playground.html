@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playground | Store</title>
+    <style>
+        /* Steam Store UI/UX Clone */
+        :root {
+            --steam-bg: #1b2838;
+            --steam-header: #171a21;
+            --steam-blue: #66c0f4;
+            --steam-dark-blue: #2a475e;
+            --steam-green: #a4d007;
+            --steam-green-hover: #8bc53f;
+            --steam-text-main: #c7d5e0;
+            --steam-text-muted: #8f98a0;
+            --steam-card-bg: rgba(0, 0, 0, 0.2);
+            --steam-card-hover: #316282;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--steam-bg);
+            color: var(--steam-text-main);
+            font-family: "Motiva Sans", Arial, Helvetica, sans-serif;
+            line-height: 1.4;
+        }
+
+        /* Portfolio Return Bar */
+        .portfolio-return {
+            background: #000;
+            color: #fff;
+            padding: 8px 24px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .portfolio-return a { color: #fff; text-decoration: none; }
+        .portfolio-return a:hover { color: var(--steam-blue); }
+
+        /* Steam Global Header */
+        .steam-header {
+            background-color: var(--steam-header);
+            padding: 24px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .header-content {
+            width: 940px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .steam-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #c5d5e0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .steam-nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        .steam-nav a {
+            color: #dbe2e6;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        .steam-nav a:hover, .steam-nav a.active {
+            color: var(--steam-blue);
+        }
+
+        /* Main Store Content */
+        .store-container {
+            width: 940px;
+            margin: 30px auto;
+        }
+
+        /* Store Menu Bar */
+        .store-menu {
+            background: linear-gradient(to right, rgba(42,71,94,1) 0%, rgba(42,71,94,0) 100%);
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 0 3px rgba(0,0,0,0.4);
+            margin-bottom: 30px;
+        }
+
+        .store-menu a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 13px;
+            margin-right: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .store-menu a:hover { color: var(--steam-blue); }
+
+        .section-title {
+            color: #fff;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            font-weight: normal;
+        }
+
+        /* Featured Hero Banner */
+        .featured-banner {
+            background: #000;
+            display: flex;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            margin-bottom: 40px;
+            cursor: pointer;
+            transition: box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .featured-banner:hover { box-shadow: 0 0 15px var(--steam-blue); }
+
+        .banner-img {
+            width: 616px;
+            height: 353px;
+            background: linear-gradient(135deg, #112 0%, #0a4 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+        }
+
+        .banner-info {
+            padding: 20px;
+            width: 324px;
+            background: rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .banner-title { font-size: 24px; color: #fff; margin-bottom: 10px; }
+        
+        .screenshots { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
+        .screenshot { height: 65px; background: rgba(255,255,255,0.1); }
+        .screenshot:hover { border: 1px solid #fff; }
+
+        .tags { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: auto; }
+        .tag { background: rgba(103,193,245,0.2); color: var(--steam-blue); font-size: 11px; padding: 2px 6px; border-radius: 2px; }
+        .tag:hover { background: rgba(103,193,245,0.4); color: #fff; }
+
+        .price-row { display: flex; justify-content: space-between; align-items: flex-end; }
+        .price { color: #fff; font-size: 13px; background: var(--steam-green-hover); padding: 2px 8px; border-radius: 2px;}
+        
+        .os-icons span { color: var(--steam-text-muted); font-size: 14px; }
+
+        /* Special Offers / Grid */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+        }
+
+        .game-card {
+            background: var(--steam-card-bg);
+            transition: background 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .game-card:hover { background: var(--steam-card-hover); }
+
+        .card-img {
+            height: 150px;
+            background: linear-gradient(135deg, #222 0%, #135 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .card-info { padding: 10px; }
+        .card-title { color: #fff; font-size: 15px; margin-bottom: 4px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+        .card-price { color: var(--steam-text-main); font-size: 12px; }
+    </style>
+</head>
+<body>
+
+    <div class="portfolio-return">
+        <a href="index.html">← Return to Portfolio</a>
+    </div>
+
+    <header class="steam-header">
+        <div class="header-content">
+            <div class="steam-logo">🕹️ PLAYGROUND</div>
+            <nav class="steam-nav">
+                <a href="#" class="active">Store</a>
+                <a href="#">Community</a>
+                <a href="#">About</a>
+                <a href="#">Support</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="store-container">
+        <div class="store-menu">
+            <a href="#">Your Store</a>
+            <a href="#">New & Noteworthy</a>
+            <a href="#">Categories</a>
+            <a href="#">Points Shop</a>
+            <a href="#">News</a>
+            <a href="#">Labs</a>
+        </div>
+
+        <h2 class="section-title">Featured & Recommended</h2>
+        
+        <a href="game-snake.html" class="featured-banner">
+            <div class="banner-img">🐍</div>
+            <div class="banner-info">
+                <h3 class="banner-title">Classic Snake</h3>
+                <div class="screenshots">
+                    <div class="screenshot" style="background: #2a475e;"></div>
+                    <div class="screenshot" style="background: #171a21;"></div>
+                    <div class="screenshot" style="background: #66c0f4;"></div>
+                    <div class="screenshot" style="background: #a4d007;"></div>
+                </div>
+                <div class="tags">
+                    <span class="tag">Retro</span>
+                    <span class="tag">Casual</span>
+                    <span class="tag">Action</span>
+                    <span class="tag">Singleplayer</span>
+                </div>
+                <div class="price-row">
+                    <div class="price">Free to Play</div>
+                    <div class="os-icons"><span>💻</span></div>
+                </div>
+            </div>
+        </a>
+
+        <h2 class="section-title">Free To Play</h2>
+        <div class="grid-container">
+            <a href="game-pong.html" class="game-card">
+                <div class="card-img">🏓</div>
+                <div class="card-info">
+                    <div class="card-title">Retro Pong</div>
+                    <div class="card-price">Free to Play</div>
+                </div>
+            </a>
+            <!-- Placeholder for future games -->
+            <a href="#" class="game-card">
+                <div class="card-img">❌⭕</div>
+                <div class="card-info">
+                    <div class="card-title">Tic-Tac-Toe (Coming Soon)</div>
+                    <div class="card-price">Free to Play</div>
+                </div>
+            </a>
+            <a href="#" class="game-card">
+                <div class="card-img">🧱</div>
+                <div class="card-info">
+                    <div class="card-title">Breakout (Coming Soon)</div>
+                    <div class="card-price">Free to Play</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
