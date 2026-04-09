@@ -191,8 +191,8 @@
                     let hitPoint = x - (paddleX + paddleWidth / 2);
                     dx = hitPoint * 0.15;
                     
-                    // Limit the top horizontal speed by 20% (max was 6.75, now capped at 5.4)
-                    dx = Math.max(6, Math.min(6, dx));
+                    // Limit the top horizontal speed
+                    dx = Math.max(5.5, Math.min(5.5, dx));
                 } 
                 // Missed paddle
                 else if (y + dy > canvas.height) {
