@@ -190,6 +190,9 @@
                     // Add "english" (angle manipulation) based on where the ball hits the paddle
                     let hitPoint = x - (paddleX + paddleWidth / 2);
                     dx = hitPoint * 0.15;
+                    
+                    // Limit the top horizontal speed by 20% (max was 6.75, now capped at 5.4)
+                    dx = Math.max(6, Math.min(6, dx));
                 } 
                 // Missed paddle
                 else if (y + dy > canvas.height) {
