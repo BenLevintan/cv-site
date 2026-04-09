@@ -57,7 +57,7 @@
         
         let player = { x: canvas.width - 20, y: canvas.height/2 - paddleHeight/2, score: 0 };
         let ai = { x: 10, y: canvas.height/2 - paddleHeight/2, score: 0 };
-        let ball = { x: canvas.width/2, y: canvas.height/2, dx: 4, dy: 4 };
+        let ball = { x: canvas.width/2, y: canvas.height/2, dx: 2, dy: 2 };
 
         function drawRect(x, y, w, h, color) {
             context.fillStyle = color;
@@ -92,8 +92,8 @@
             if (ball.y + ballSize > canvas.height || ball.y < 0) ball.dy *= -1;
 
             // Scoring
-            if (ball.x < 0) { player.score++; resetBall(); }
-            else if (ball.x + ballSize > canvas.width) { ai.score++; resetBall(); }
+            if (ball.x < ballSize) { player.score++; resetBall(); }
+            else if (ball.x - 2 * ballSize > canvas.width) { ai.score++; resetBall(); }
 
             // Paddle collisions
             let playerCollision = ball.x + ballSize > player.x && ball.y > player.y && ball.y < player.y + paddleHeight;
