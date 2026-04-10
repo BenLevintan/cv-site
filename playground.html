@@ -28,22 +28,6 @@
             line-height: 1.4;
         }
 
-        /* Portfolio Return Bar */
-        .portfolio-return {
-            background: #000;
-            color: #fff;
-            padding: 8px 24px;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .portfolio-return a { color: #fff; text-decoration: none; }
-        .portfolio-return a:hover { color: var(--steam-blue); }
-
         /* Steam Global Header */
         .steam-header {
             background-color: var(--steam-header);
@@ -92,7 +76,7 @@
         /* Main Store Content */
         .store-container {
             width: 940px;
-            margin: 30px auto;
+            margin: 0 auto 30px;
         }
 
         /* Store Menu Bar */
@@ -206,14 +190,15 @@
 </head>
 <body>
 
-    <div class="portfolio-return">
-        <a href="index.html">← Return to Portfolio</a>
-    </div>
-
     <header class="steam-header">
         <div class="header-content">
+            <a href="playground.html" class="steam-logo">🕹️ PLAYGROUND</a>
             <nav class="steam-nav">
-                <a href="playgrou"
+                <a href="playground.html" class="active">Store</a>
+                <a href="index.html">Portfolio</a>
+                <a href="index.html">Contact</a>
+            </nav>
+        </div>
     </header>
 
     <div class="store-container">
