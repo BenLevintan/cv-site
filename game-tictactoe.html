@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Playground | Pong</title>
+    <title>Playground | Tic-Tac-Toe</title>
     <link rel="stylesheet" href="steam.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -21,7 +21,7 @@
             <div class="st-global-actions">
                 <a href="#" class="st-install-btn"><i class="fa-solid fa-download"></i> Install Steam</a>
                 <a href="#"><i class="fa-solid fa-bell"></i></a>
-                <a href="#">User Name ▾</a>
+                <a href="#">User Name▾</a>
                 <span style="color: #66c0f4; margin-left: 8px;">₪0.00</span>
                 <a href="#" style="margin-left: 8px;">?</a>
             </div>
@@ -48,15 +48,15 @@
     <div class="st-page">
         
         <div class="st-breadcrumb">
-            <a href="#">All Games</a> &gt; <a href="#">Arcade</a> &gt; Retro Pong
+            <a href="#">All Games</a> &gt; <a href="#">Indie</a> &gt; Tic-Tac-Toe
         </div>
-        <h1 class="st-title">Retro Pong</h1>
+        <h1 class="st-title">Tic-Tac-Toe</h1>
 
         <div class="st-split">
             <div class="st-left">
-                <div class="st-game-frame" id="game-canvas-container">
-                    <canvas width="600" height="400" id="game"></canvas>
-                    <div class="controls-info">Use Mouse or Up/Down arrows to move the right paddle.</div>
+                <div class="st-game-frame" style="background: #2a475e;">
+                    <div style="font-size: 24px; color: #66c0f4; margin-bottom: 8px;">Coming Soon</div>
+                    <div style="color: #c6d4df;">This game is currently in development.</div>
                 </div>
                 
                 <div class="st-thumbnails">
@@ -79,9 +79,9 @@
             </div>
             
             <div class="st-right">
-                <div class="st-cover" style="font-size: 48px;">🏓</div>
+                <div class="st-cover" style="font-size: 48px;">❌⭕</div>
                 <div class="st-short-desc">
-                    Two paddles. One ball. Pure reflex. The game that started it all, rebuilt in the browser.
+                    The classic game of Xs and Os. Face off against the computer or challenge a friend. It's not out yet, but it will be soon.
                 </div>
                 
                 <div class="st-meta-row">
@@ -90,7 +90,7 @@
                 </div>
                 <div class="st-meta-row">
                     <div class="st-meta-label">RELEASE DATE:</div>
-                    <div class="st-meta-val" style="color: #8f98a0;">Available Now</div>
+                    <div class="st-meta-val" style="color: #8f98a0;">TBD</div>
                 </div>
                 <div class="st-meta-row" style="margin-top: 10px;">
                     <div class="st-meta-label">DEVELOPER:</div>
@@ -103,41 +103,34 @@
                 
                 <div class="st-tags">
                     <div class="st-meta-label" style="width: 100%; margin-bottom: 4px;">Popular user-defined tags for this product:</div>
-                    <span class="st-tag">Retro</span>
-                    <span class="st-tag">Arcade</span>
+                    <span class="st-tag">Coming Soon</span>
+                    <span class="st-tag">Tic-Tac-Toe</span>
                     <span class="st-tag">Multiplayer</span>
-                    <span class="st-tag">Pong</span>
-                    <span class="st-tag">No Download</span>
+                    <span class="st-tag">Indie</span>
                     <span class="st-tag" style="background: rgba(255,255,255,0.1); color: #fff;">+</span>
                 </div>
             </div>
         </div>
 
-        <div class="st-banner">
-            <div class="st-banner-text">Available Now</div>
-            <div class="st-banner-sub">Free to Play — No installation required</div>
+        <div class="st-banner" style="background: linear-gradient(to right, #434953, #2f343a);">
+            <div class="st-banner-text">Coming Soon</div>
+            <div class="st-banner-sub" style="color: #8f98a0;">This item is not yet available.</div>
         </div>
 
         <div class="st-split">
             <div class="st-left">
                 
                 <div class="st-purchase-box">
-                    <h1>Play Retro Pong</h1>
+                    <h1>Tic-Tac-Toe</h1>
                     <div class="st-play-area">
-                        <div class="st-play-subtext">Runs in your browser. No sign-in required.</div>
-                        <button class="st-play-btn" onclick="document.getElementById('game-canvas-container').scrollIntoView({behavior: 'smooth'})">Play Now — It's Free</button>
+                        <div class="st-play-subtext">Be the first to know when it launches.</div>
+                        <button class="st-play-btn" style="background: #16202d; color: #66c0f4;" disabled>Wishlist for Updates</button>
                     </div>
                 </div>
                 
                 <h2 class="st-section-title">About This Game</h2>
                 <div class="st-about-block">
-                    Two paddles. One ball. Pure reflex. The game that started it all, rebuilt in the browser.
-                </div>
-                
-                <div class="st-about-block">
-                    <div class="st-about-h">ONE BALL. INFINITE TENSION.</div>
-                    Control your paddle. Predict the bounce. Outsmart the AI opponent. The ball gets faster with every hit. Zero loading screens. Zero microtransactions. Zero loot boxes.
-                    <div style="width: 100%; height: 353px; background: #2a475e; margin-top: 10px;"></div>
+                    A simple but elegant implementation of the classic game.
                 </div>
                 
                 <div class="st-about-block">
@@ -180,43 +173,6 @@
                     * RTX 9090 Ti does not exist yet. We believe in you.
                 </div>
                 
-                <h2 class="st-section-title">More Like This</h2>
-                <div style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px;">
-                    <a href="game-snake.html" class="st-card" style="width: 220px; flex-shrink: 0;">
-                        <div class="st-card-img" style="background-image: url('assets/snake_cover.png'); font-size: 0;">🐍</div>
-                        <div class="st-card-info">
-                            <div class="st-card-title">Classic Snake</div>
-                            <div class="st-price" style="display: inline-block;">Free</div>
-                        </div>
-                    </a>
-                    <a href="game-breakout.html" class="st-card" style="width: 220px; flex-shrink: 0;">
-                        <div class="st-card-img" style="background-image: url('assets/brick_breaker.png'); font-size: 0;">🧱</div>
-                        <div class="st-card-info">
-                            <div class="st-card-title">Classic Breakout</div>
-                            <div class="st-price" style="display: inline-block;">Free</div>
-                        </div>
-                    </a>
-                    <a href="game-tictactoe.html" class="st-card" style="width: 220px; flex-shrink: 0;">
-                        <div class="st-card-img">❌⭕</div>
-                        <div class="st-card-info">
-                            <div class="st-card-title">Tic-Tac-Toe</div>
-                            <div class="st-price" style="display: inline-block; background: transparent; color: #66c0f4;">Coming Soon</div>
-                        </div>
-                    </a>
-                </div>
-                
-                <h2 class="st-section-title">What Curators Say</h2>
-                <div class="st-sidebar-box" style="text-align: center; padding: 20px;">
-                    <div style="font-size: 14px; color: #c6d4df; margin-bottom: 4px;">0 Curators have reviewed this product.</div>
-                    Be the first. We're not sure what that means for a portfolio project, but the option is there.
-                </div>
-                
-                <h2 class="st-section-title">Customer Reviews</h2>
-                <div class="st-sidebar-box" style="text-align: center; padding: 40px 20px; margin-bottom: 0;">
-                    <div style="font-size: 16px; color: #c6d4df; margin-bottom: 8px;">There are no reviews for this product.</div>
-                    Play it. Then tell your friends. Or just quietly enjoy it.
-                </div>
-                
             </div>
             
             <div class="st-right">
@@ -234,25 +190,11 @@
                 </div>
                 
                 <div class="st-sidebar-box">
-                    <div style="color: #c6d4df; margin-bottom: 4px;">Languages:</div>
-                    <table class="st-lang-table">
-                        <tr><th></th><th style="text-align: center;">Interface</th><th style="text-align: center;">Full Audio</th><th style="text-align: center;">Subtitles</th></tr>
-                        <tr><td>English</td><td style="text-align: center;">✓</td><td style="text-align: center;">✓</td><td style="text-align: center;">✓</td></tr>
-                    </table>
-                    <div style="margin-top: 10px; font-style: italic;">Arrow keys are universal.</div>
-                </div>
-                
-                <div class="st-sidebar-box">
-                    No Interactive Elements<br>
-                    <span style="color: #556772;">No purchases. No ads. No data collected.</span>
-                </div>
-                
-                <div class="st-sidebar-box">
-                    <strong>TITLE:</strong> Retro Pong<br>
-                    <strong>GENRE:</strong> <a href="#">Indie</a>, <a href="#">Browser Game</a>, <a href="#">Retro</a><br>
+                    <strong>TITLE:</strong> Tic-Tac-Toe<br>
+                    <strong>GENRE:</strong> <a href="#">Indie</a><br>
                     <strong>DEVELOPER:</strong> <a href="index.html">Ben Levintan</a><br>
                     <strong>PUBLISHER:</strong> <a href="index.html">Ben Levintan</a><br>
-                    <strong>RELEASE DATE:</strong> Available Now
+                    <strong>RELEASE DATE:</strong> TBD
                 </div>
                 
                 <div class="st-sidebar-box" style="background: transparent; padding: 0; display: flex; flex-direction: column; gap: 4px;">
@@ -260,18 +202,6 @@
                     <a href="index.html" class="st-sb-feat" style="background: rgba(103,193,245,0.1);">Portfolio ↗</a>
                     <a href="https://github.com/BenLevintan" target="_blank" class="st-sb-feat" style="background: rgba(103,193,245,0.1);">GitHub ↗</a>
                     <a href="index.html#home-projects-section" class="st-sb-feat" style="background: rgba(103,193,245,0.1);">View other projects ↗</a>
-                </div>
-                
-                <div style="font-size: 11px; display: flex; flex-direction: column; gap: 4px; margin-top: 20px;">
-                    <a href="index.html">View update history</a>
-                    <a href="index.html">Read related news</a>
-                    <a href="index.html">View discussions</a>
-                    <a href="index.html">Find Community Groups</a>
-                </div>
-                
-                <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
-                    <span class="st-action-btn">Embed</span>
-                    <span class="st-action-btn"><i class="fa-solid fa-flag"></i></span>
                 </div>
             </div>
         </div>
@@ -303,84 +233,8 @@
                     <a href="#">Legal</a>
                     <a href="#">Subscriber Agreement</a>
                 </div>
-                <div class="st-footer-col">
-                    <div style="color: #fff; margin-bottom: 10px;">MORE</div>
-                    <a href="#">Site Index</a>
-                    <a href="#">Hardware</a>
-                    <a href="#">Developer</a>
-                </div>
-            </div>
-            <div class="st-footer-bottom">
-                <div>&copy; 2026 Ben Levintan &middot; Built without a game engine &middot; All bugs are features</div>
             </div>
         </div>
     </div>
-
-    <script>
-        const canvas = document.getElementById('game');
-        const context = canvas.getContext('2d');
-        
-        const paddleHeight = 80;
-        const paddleWidth = 10;
-        const ballSize = 10;
-        
-        let player = { x: canvas.width - 20, y: canvas.height/2 - paddleHeight/2, score: 0 };
-        let ai = { x: 10, y: canvas.height/2 - paddleHeight/2, score: 0 };
-        let ball = { x: canvas.width/2, y: canvas.height/2, dx: 2, dy: 2 };
-
-        function drawRect(x, y, w, h, color) {
-            context.fillStyle = color;
-            context.fillRect(x, y, w, h);
-        }
-        
-        function drawText(text, x, y) {
-            context.fillStyle = "#fff";
-            context.font = "32px Arial";
-            context.fillText(text, x, y);
-        }
-
-        function resetBall() {
-            ball.x = canvas.width / 2;
-            ball.y = canvas.height / 2;
-            ball.dx *= -1;
-        }
-
-        canvas.addEventListener('mousemove', (e) => {
-            let rect = canvas.getBoundingClientRect();
-            player.y = e.clientY - rect.top - paddleHeight/2;
-        });
-
-        function update() {
-            ball.x += ball.dx;
-            ball.y += ball.dy;
-
-            // Simple AI
-            ai.y += ((ball.y - (ai.y + paddleHeight/2))) * 0.08;
-
-            // Wall collisions (top/bottom)
-            if (ball.y + ballSize > canvas.height || ball.y < 0) ball.dy *= -1;
-
-            // Scoring
-            if (ball.x < ballSize) { player.score++; resetBall(); }
-            else if (ball.x - 2 * ballSize > canvas.width) { ai.score++; resetBall(); }
-
-            // Paddle collisions
-            let playerCollision = ball.x + ballSize > player.x && ball.y > player.y && ball.y < player.y + paddleHeight;
-            let aiCollision = ball.x < ai.x + paddleWidth && ball.y > ai.y && ball.y < ai.y + paddleHeight;
-            if (playerCollision || aiCollision) ball.dx *= -1.005; // speed up slightly
-        }
-
-        function loop() {
-            update();
-            drawRect(0, 0, canvas.width, canvas.height, '#000'); // clear
-            drawRect(player.x, player.y, paddleWidth, paddleHeight, '#66c0f4');
-            drawRect(ai.x, ai.y, paddleWidth, paddleHeight, '#ff375f');
-            drawRect(ball.x, ball.y, ballSize, ballSize, '#fff');
-            drawText(ai.score, canvas.width/4, 50);
-            drawText(player.score, 3*canvas.width/4, 50);
-            requestAnimationFrame(loop);
-        }
-        requestAnimationFrame(loop);
-    </script>
 </body>
 </html>

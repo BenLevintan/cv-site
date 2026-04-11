@@ -1,0 +1,195 @@
+/* Steam Store Exact Global Styles */
+:root {
+    --steam-bg: #1b2838;
+    --steam-nav-bg: #171a21;
+    --steam-sec-nav-bg: #1b2838;
+    --steam-panel-bg: #16202d;
+    --steam-hover: #2a475e;
+    --steam-text-main: #c6d4df;
+    --steam-text-muted: #8f98a0;
+    --steam-blue: #66c0f4;
+    --steam-green-bg: #4c6b22;
+    --steam-green-text: #a4d007;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--steam-bg);
+    color: var(--steam-text-main);
+    font-family: "Motiva Sans", Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    line-height: 1.4;
+    min-width: 1024px;
+}
+
+a {
+    text-decoration: none;
+    color: var(--steam-blue);
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: #fff;
+}
+
+/* --- Global Top Nav --- */
+.st-global-nav {
+    background: var(--steam-nav-bg);
+    width: 100%;
+    height: 104px;
+    display: flex;
+    justify-content: center;
+}
+
+.st-global-inner {
+    width: 940px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.st-logo-group { display: flex; align-items: center; gap: 40px; }
+.st-logo { font-size: 26px; font-weight: bold; color: #c5d5e0; text-transform: uppercase; letter-spacing: 2px; display: flex; align-items: center; gap: 8px; }
+.st-logo:hover { color: #fff; }
+.st-global-links a { color: #dbe2e6; font-size: 14px; font-weight: bold; text-transform: uppercase; margin-right: 15px; }
+.st-global-links a:hover { color: var(--steam-blue); }
+
+.st-global-actions { display: flex; align-items: center; gap: 12px; font-size: 12px; color: #b8b6b4; }
+.st-install-btn { background: #5c7e10; color: #e5e4dc !important; padding: 4px 10px; font-size: 13px; display: inline-flex; align-items: center; gap: 4px; border-radius: 2px; }
+.st-install-btn:hover { color: #fff !important; }
+
+/* --- Secondary Nav --- */
+.st-sec-nav-wrap {
+    background: var(--steam-sec-nav-bg);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.st-sec-nav {
+    width: 940px;
+    background: linear-gradient(to right, rgba(42,71,94,1) 0%, rgba(42,71,94,0) 100%);
+    height: 34px;
+    padding: 0 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.st-sec-links a { color: #fff; font-size: 13px; margin-right: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+.st-search-box { display: flex; align-items: center; }
+.st-search { background: #316282; border: 1px solid var(--steam-panel-bg); border-right: none; padding: 0 8px; border-radius: 2px 0 0 2px; color: #fff; font-size: 13px; width: 200px; height: 26px; outline: none; }
+.st-search-btn { background: #67c1f5; border: none; border-radius: 0 2px 2px 0; width: 30px; height: 26px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #111; }
+.st-search-btn:hover { background: #fff; }
+
+/* --- Content Shell --- */
+.st-page { width: 940px; margin: 0 auto; padding-bottom: 60px; }
+.st-section-title { font-size: 11px; color: #c6d4df; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 10px; margin-top: 30px; font-weight: normal; }
+
+/* --- Store Homepage --- */
+.st-carousel-container { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; }
+.st-carousel-arrow { width: 38px; height: 64px; background: rgba(0,0,0,0.2); cursor: pointer; display: flex; align-items: center; justify-content: center; border-radius: 3px; font-size: 24px; color: var(--steam-blue); transition: background 0.2s;}
+.st-carousel-arrow:hover { background: rgba(0,0,0,0.5); color: #fff; }
+
+.st-featured { display: flex; background: #000; text-decoration: none; color: inherit; height: 353px; flex: 1; box-shadow: 0 0 10px rgba(0,0,0,0.5); transition: box-shadow 0.2s; }
+.st-featured:hover { box-shadow: 0 0 15px var(--steam-blue); }
+.st-feat-img { width: 616px; height: 353px; background: var(--steam-hover); display: flex; align-items: center; justify-content: center; font-size: 48px; background-size: cover; background-position: center; }
+.st-feat-info { width: 324px; padding: 20px; background: rgba(0,0,0,0.3); display: flex; flex-direction: column; }
+.st-feat-title { font-size: 24px; color: #fff; margin-bottom: 15px; font-weight: normal; }
+.st-feat-screens { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 8px; margin-bottom: 15px; height: 140px;}
+.st-feat-screen { background: var(--steam-panel-bg); }
+.st-feat-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: auto; }
+.st-feat-tag { background: rgba(103,193,245,0.2); color: var(--steam-blue); font-size: 11px; padding: 2px 6px; border-radius: 2px; }
+.st-feat-price-row { display: flex; justify-content: space-between; align-items: flex-end; }
+
+.st-carousel-dots { display: flex; justify-content: center; gap: 4px; margin-bottom: 30px; }
+.st-dot { width: 15px; height: 9px; background: rgba(255,255,255,0.2); border-radius: 2px; cursor: pointer; }
+.st-dot.active { background: rgba(255,255,255,0.5); }
+.st-dot:hover { background: #fff; }
+
+/* --- Game Cards --- */
+.st-price { background: var(--steam-green-bg); color: var(--steam-green-text); padding: 2px 6px; font-size: 13px; }
+.st-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
+.st-card { background: var(--steam-panel-bg); display: flex; flex-direction: column; text-decoration: none; color: inherit; transition: background 0.2s; }
+.st-card:hover { background: var(--steam-hover); }
+.st-card:hover .st-card-title { color: #fff; }
+.st-card-img { width: 100%; aspect-ratio: 16/9; background: var(--steam-hover); display: flex; align-items: center; justify-content: center; font-size: 24px; color: #1b2838; background-size: cover; background-position: center; }
+.st-card-info { padding: 8px 0 4px 0; }
+.st-card-title { font-size: 13px; color: var(--steam-text-main); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color 0.2s; }
+
+/* --- Game Pages Elements --- */
+.st-breadcrumb { font-size: 12px; color: var(--steam-text-muted); margin-bottom: 10px; }
+.st-breadcrumb a { color: var(--steam-text-muted); }
+.st-breadcrumb a:hover { color: #fff; }
+.st-title { font-size: 28px; color: #fff; font-weight: normal; margin-bottom: 20px; }
+
+.st-split { display: flex; gap: 14px; margin-bottom: 20px; }
+.st-left { width: 616px; flex-shrink: 0; }
+.st-right { width: 310px; flex-shrink: 0; }
+
+.st-game-frame { background: #000; width: 100%; min-height: 353px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; border: 1px solid rgba(0,0,0,0.3); }
+.st-thumbnails { display: flex; gap: 4px; margin-top: 4px; }
+.st-thumb { width: 120px; height: 69px; background: var(--steam-hover); cursor: pointer; transition: opacity 0.2s; }
+.st-thumb:hover { opacity: 0.8; }
+
+.st-action-row { margin-top: 12px; display: flex; justify-content: space-between; font-size: 12px; }
+.st-action-btn { background: var(--steam-panel-bg); color: var(--steam-blue); padding: 4px 10px; border-radius: 2px; margin-right: 4px; cursor: pointer; display: inline-block; }
+.st-action-btn:hover { background: var(--steam-blue); color: #fff; }
+
+.st-cover { width: 100%; height: 145px; background: var(--steam-hover); margin-bottom: 10px; display: flex; align-items: center; justify-content: center; color: #1b2838; font-size: 12px; background-size: cover; background-position: center; }
+.st-short-desc { font-size: 13px; line-height: 18px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(0,0,0,0.3); color: var(--steam-text-main); }
+.st-meta-row { display: flex; font-size: 12px; margin-bottom: 6px; }
+.st-meta-label { width: 100px; color: #556772; text-transform: uppercase; }
+.st-meta-val { color: var(--steam-blue); flex: 1; }
+
+.st-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 10px; }
+.st-tag { background: rgba(103,193,245,0.2); color: var(--steam-blue); font-size: 11px; padding: 2px 6px; border-radius: 2px; cursor: pointer; }
+.st-tag:hover { background: rgba(103,193,245,0.4); color: #fff; }
+
+.st-banner { background: linear-gradient(to right, #007c92, #004d60); margin: 20px 0; padding: 16px; display: flex; align-items: center; border-radius: 2px; }
+.st-banner-text { font-size: 24px; color: #fff; margin-right: 20px; }
+.st-banner-sub { font-size: 13px; color: var(--steam-blue); }
+
+.st-purchase-box { background: linear-gradient(-60deg, rgba(226,244,255,0.1) 5%,rgba(84,107,115,0.2) 95%); border-radius: 4px; padding: 16px; margin-top: 20px; position: relative; border: 1px solid rgba(0,0,0,0.3); }
+.st-purchase-box h1 { font-size: 21px; font-weight: normal; color: #fff; margin-bottom: 16px; }
+.st-play-area { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
+.st-play-subtext { font-size: 12px; color: var(--steam-text-muted); }
+.st-play-btn { background: linear-gradient(to bottom, #799905 5%, #536904 95%); color: #D2EFA9; padding: 0 20px; height: 36px; line-height: 36px; font-size: 15px; border-radius: 2px; cursor: pointer; display: inline-block; border: none; }
+.st-play-btn:hover { color: #fff; background: linear-gradient(to bottom, #8ed600 5%, #6c9c00 95%); }
+
+.st-about-block { margin-bottom: 20px; font-size: 14px; line-height: 1.6; }
+.st-about-h { color: var(--steam-blue); font-size: 16px; margin-bottom: 10px; text-transform: uppercase; font-weight: normal; border-bottom: 1px solid rgba(0,0,0,0.3); padding-bottom: 4px;}
+
+.st-sysreq { font-size: 13px; color: #acb2b8; margin-top: 10px; display: flex; gap: 20px; }
+.st-sysreq-col { flex: 1; }
+.st-sysreq-col ul { list-style: none; padding: 0; margin: 0; }
+.st-sysreq-col li { margin-bottom: 6px; }
+.st-sysreq-col strong { color: #fff; font-weight: normal; }
+.st-sysreq-joke { color: var(--steam-text-muted); font-style: italic; }
+
+.st-sidebar-box { background: var(--steam-panel-bg); padding: 12px; font-size: 12px; color: var(--steam-text-muted); margin-bottom: 10px; }
+.st-sb-feat { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; background: rgba(0,0,0,0.2); padding: 4px; color: var(--steam-blue); }
+.st-sb-feat:hover { background: rgba(255,255,255,0.1); }
+.st-lang-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.st-lang-table th { font-weight: normal; color: #556772; border-bottom: 1px solid rgba(0,0,0,0.3); text-align: left; padding-bottom: 4px; }
+.st-lang-table td { padding: 4px 0; border-bottom: 1px solid rgba(0,0,0,0.3); color: var(--steam-text-muted); }
+
+/* --- Footer --- */
+.st-footer { background: var(--steam-nav-bg); border-top: 1px solid var(--steam-hover); padding: 30px 0; font-size: 12px; color: var(--steam-text-muted); margin-top: 60px;}
+.st-footer-inner { width: 940px; margin: 0 auto; }
+.st-footer-top { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 15px; }
+.st-footer-logos { font-size: 24px; font-weight: bold; color: var(--steam-text-muted); letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
+.st-footer-cols { display: flex; justify-content: space-between; margin-bottom: 20px; }
+.st-footer-col a { display: block; margin-bottom: 6px; color: var(--steam-text-main); }
+.st-footer-bottom { display: flex; justify-content: space-between; align-items: center; }
+
+/* Canvas Game Restyles */
+canvas { border: 2px solid var(--steam-hover); box-shadow: 0 0 20px rgba(0,0,0,0.8); }
+.score-board { font-size: 20px; font-weight: bold; margin-bottom: 10px; color: var(--steam-green-text); }
+.controls-info { margin-top: 10px; color: var(--steam-text-muted); font-size: 12px; text-align: center; }

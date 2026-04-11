@@ -4,258 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Playground | Breakout</title>
-    <style>
-        /* Original Game Styles - Now scoped to .game-player-frame */
-        .game-player-frame {
-            background: #171a21;
-            color: #c7d5e0;
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 30px;
-            padding-bottom: 30px;
-            margin: 0;
-            width: 100%;
-            min-height: 353px;
-        }
-        .nav {
-            width: 600px;
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        .nav a {
-            color: #66c0f4;
-            text-decoration: none;
-            font-size: 14px;
-        }
-        .nav a:hover { color: #fff; }
-        canvas {
-            background: #000;
-            border: 2px solid #2a475e;
-            box-shadow: 0 0 20px rgba(0,0,0,0.8);
-        }
-        .score-board {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #a4d007;
-        }
-        .controls {
-            margin-top: 20px;
-            color: #8f98a0;
-            font-size: 12px;
-        }
-
-        /* Steam Store UI Chrome */
-        body {
-            background: #1b2838;
-            color: #c6d4df;
-            font-family: "Motiva Sans", Arial, Helvetica, sans-serif;
-            margin: 0;
-            padding: 0;
-            min-width: 1024px;
-            line-height: 1.4;
-        }
-        a { text-decoration: none; color: #66c0f4; transition: color 0.2s; }
-        a:hover { color: #fff; }
-        
-        /* Site Global Header */
-        .steam-header {
-            background-color: #171a21;
-            padding: 24px 0;
-            display: flex;
-            justify-content: center;
-        }
-        .header-content {
-            width: 940px;
-            display: flex;
-            align-items: center;
-            gap: 40px;
-        }
-        .steam-logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #c5d5e0;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-        }
-        .steam-nav {
-            display: flex;
-            gap: 20px;
-        }
-        .steam-nav a {
-            color: #dbe2e6;
-            font-size: 14px;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-        .steam-nav a:hover, .steam-nav a.active {
-            color: #66c0f4;
-        }
-        
-        /* Store Nav */
-        .st-store-nav {
-            width: 940px;
-            margin: 0 auto 30px;
-            background: linear-gradient(to right, rgba(42,71,94,1) 0%, rgba(42,71,94,0) 100%);
-            box-shadow: 0 0 3px rgba(0,0,0,0.4);
-            padding: 8px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .st-store-nav-links a { color: #fff; font-size: 13px; margin-right: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
-        .st-search { background: #316282; border: 1px solid #16202d; padding: 4px 8px; border-radius: 3px; color: #fff; font-size: 13px; width: 180px; }
-        
-        /* Page Content */
-        .st-page { width: 940px; margin: 0 auto; padding-bottom: 60px; }
-        .st-breadcrumb { font-size: 12px; color: #8f98a0; margin-bottom: 10px; }
-        .st-breadcrumb a { color: #8f98a0; }
-        .st-breadcrumb a:hover { color: #fff; }
-        .st-title { font-size: 26px; color: #fff; font-weight: normal; margin-bottom: 20px; }
-        
-        .st-split { display: flex; gap: 14px; margin-bottom: 20px; }
-        .st-left { width: 616px; flex-shrink: 0; }
-        .st-right { width: 310px; flex-shrink: 0; }
-        
-        /* Left Column Elements */
-        .st-thumbnails { display: flex; gap: 4px; margin-top: 4px; }
-        .st-thumb { width: 120px; height: 69px; background: #2a475e; cursor: pointer; transition: opacity 0.2s; border: 1px solid transparent; }
-        .st-thumb:hover { opacity: 0.8; }
-        .st-action-row { margin-top: 12px; display: flex; justify-content: space-between; font-size: 12px; }
-        .st-action-btn { background: #16202d; color: #67c1f5; padding: 4px 10px; border-radius: 2px; margin-right: 4px; cursor: pointer; display: inline-block; }
-        .st-action-btn:hover { background: #67c1f5; color: #fff; }
-        .st-queue-link { color: #fff; font-size: 12px; }
-        
-        /* Right Column Elements */
-        .st-cover { width: 100%; height: 145px; background: #2a475e; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; color: #1b2838; font-size: 12px;}
-        .st-short-desc { font-size: 13px; line-height: 18px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #2a475e; }
-        .st-meta-row { display: flex; font-size: 12px; margin-bottom: 6px; }
-        .st-meta-label { width: 100px; color: #556772; text-transform: uppercase; }
-        .st-meta-val { color: #66c0f4; flex: 1; }
-        .st-tags-list { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 10px; }
-        .st-tag { background: rgba(103,193,245,0.2); color: #67c1f5; font-size: 11px; padding: 2px 6px; border-radius: 2px; cursor: pointer; }
-        .st-tag:hover { background: rgba(103,193,245,0.4); color: #fff; }
-        .st-tag.plus { background: rgba(255,255,255,0.1); color: #fff; }
-        
-        /* Sections */
-        .st-section-title { font-size: 14px; color: #fff; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; margin-top: 30px; font-weight: normal; }
-        .st-section-title::after { content: ""; display: block; width: 100%; height: 1px; background: #2a475e; margin-top: 5px; }
-        
-        /* Purchase Box */
-        .st-purchase-box { background: linear-gradient(-60deg, rgba(226,244,255,0.1) 5%,rgba(84,107,115,0.2) 95%); border-radius: 4px; padding: 16px; margin-top: 20px; position: relative; }
-        .st-purchase-box h1 { font-size: 21px; font-weight: normal; color: #fff; margin-bottom: 16px; }
-        .st-play-area { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
-        .st-play-subtext { font-size: 12px; color: #8f98a0; }
-        .st-play-btn { background: linear-gradient(to bottom, #799905 5%, #536904 95%); color: #D2EFA9; padding: 0 20px; height: 36px; line-height: 36px; font-size: 15px; border-radius: 2px; cursor: pointer; display: inline-block; }
-        .st-play-btn:hover { color: #fff; background: linear-gradient(to bottom, #8ed600 5%, #6c9c00 95%); }
-        
-        /* Banner */
-        .st-banner { background: linear-gradient(to right, #007c92, #004d60); margin: 20px 0; padding: 16px; display: flex; align-items: center; border-radius: 2px; }
-        .st-banner-text { font-size: 24px; color: #fff; margin-right: 20px; }
-        .st-banner-sub { font-size: 13px; color: #66c0f4; }
-        
-        /* About */
-        .st-about-block { margin-bottom: 20px; font-size: 14px; line-height: 1.6; }
-        .st-about-h { color: #66c0f4; font-size: 16px; margin-bottom: 10px; text-transform: uppercase; font-weight: normal; }
-        .st-about-img { width: 100%; height: 353px; background: #2a475e; margin-top: 10px; display: flex; align-items: center; justify-content: center; color: #1b2838; font-size: 14px;}
-        
-        /* SysReq */
-        .st-sysreq { font-size: 13px; color: #acb2b8; margin-top: 10px; display: flex; gap: 20px; }
-        .st-sysreq-col { flex: 1; }
-        .st-sysreq-col ul { list-style: none; padding: 0; }
-        .st-sysreq-col li { margin-bottom: 6px; }
-        .st-sysreq-col strong { color: #fff; font-weight: normal; }
-        .st-sysreq-joke { color: #8f98a0; font-style: italic; }
-        
-        /* Sidebar Elements */
-        .st-sidebar-box { background: #16202d; padding: 12px; font-size: 12px; color: #8f98a0; margin-bottom: 10px; }
-        .st-sb-feat { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; background: rgba(0,0,0,0.2); padding: 4px; color: #66c0f4; }
-        .st-sb-feat:hover { background: rgba(255,255,255,0.1); }
-        .st-lang-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .st-lang-table th { font-weight: normal; color: #556772; border-bottom: 1px solid #2a475e; text-align: left; padding-bottom: 4px; }
-        .st-lang-table td { padding: 4px 0; border-bottom: 1px solid #2a475e; color: #8f98a0; }
-        
-        /* Cards Carousel */
-        .st-carousel { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; }
-        .st-card { width: 220px; flex-shrink: 0; background: #16202d; cursor: pointer; display: flex; flex-direction: column; transition: background 0.2s; }
-        .st-card:hover { background: #2a475e; }
-        .st-card-img { height: 103px; background: #2a475e; display: flex; align-items: center; justify-content: center; color: #1b2838; }
-        .st-card-info { padding: 10px; flex: 1; display: flex; flex-direction: column; }
-        .st-card-title { color: #fff; font-size: 14px; margin-bottom: 4px; }
-        .st-card-tag { color: #556772; font-size: 12px; margin-bottom: auto; }
-        .st-card-price { color: #a4d007; font-size: 12px; margin-top: 8px; text-align: right; }
-        
-        /* Footer */
-        .st-footer { background: #171a21; border-top: 1px solid #2a475e; padding: 30px 0; font-size: 12px; color: #8f98a0; }
-        .st-footer-inner { width: 940px; margin: 0 auto; }
-        .st-footer-top { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #363c44; padding-bottom: 15px; margin-bottom: 15px; }
-        .st-footer-logos { font-size: 24px; font-weight: bold; color: #8f98a0; letter-spacing: 1px; }
-        .st-footer-cols { display: flex; justify-content: space-between; margin-bottom: 20px; }
-        .st-footer-col a { display: block; margin-bottom: 6px; color: #c6d4df; }
-        .st-footer-bottom { display: flex; justify-content: space-between; align-items: center; }
-        .st-socials a { margin-left: 10px; font-size: 16px; }
-    </style>
+    <link rel="stylesheet" href="steam.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Global Nav -->
-    <header class="steam-header">
-        <div class="header-content">
-            <a href="playground.html" class="steam-logo">🕹️ PLAYGROUND</a>
-            <nav class="steam-nav">
-                <a href="playground.html" class="active">Store</a>
-                <a href="index.html">Portfolio</a>
-                <a href="index.html">Contact</a>
-            </nav>
+    <div class="st-global-nav">
+        <div class="st-global-inner">
+            <div class="st-logo-group">
+                <a href="playground.html" class="st-logo"><i class="fa-brands fa-steam"></i> PLAYGROUND</a>
+                <div class="st-global-links">
+                    <a href="playground.html">Store</a>
+                    <a href="index.html">Portfolio</a>
+                    <a href="index.html">Contact</a>
+                </div>
+            </div>
+            <div class="st-global-actions">
+                <a href="#" class="st-install-btn"><i class="fa-solid fa-download"></i> Install Steam</a>
+                <a href="#"><i class="fa-solid fa-bell"></i></a>
+                <a href="#">User Name ▾</a>
+                <span style="color: #66c0f4; margin-left: 8px;">₪0.00</span>
+                <a href="#" style="margin-left: 8px;">?</a>
+            </div>
         </div>
-    </header>
+    </div>
 
-    <!-- Main Page Content -->
-    <div class="st-page">
-        
-        <!-- Store Nav -->
-        <div class="st-store-nav">
-            <div class="st-store-nav-links">
+    <div class="st-sec-nav-wrap">
+        <div class="st-sec-nav">
+            <div class="st-sec-links">
                 <a href="#">Browse ▾</a>
                 <a href="#">Recommendations ▾</a>
                 <a href="#">Categories ▾</a>
-                <a href="#">Ways to Play ▾</a>
-                <a href="#">Special Sections ▾</a>
+                <a href="#">Points Shop</a>
+                <a href="#">News</a>
+                <a href="#">Labs</a>
             </div>
-            <div style="display: flex; align-items: center; gap: 10px;">
+            <div class="st-search-box">
                 <input type="text" class="st-search" placeholder="search">
-                <a href="#" style="color: #fff; font-size: 13px;">★ Wishlist</a>
+                <button class="st-search-btn"><i class="fa-solid fa-search"></i></button>
             </div>
         </div>
+    </div>
 
-        <!-- Breadcrumb & Title -->
+    <div class="st-page">
+        
         <div class="st-breadcrumb">
-            <a href="#">All Games</a> &gt; <a href="#">Indie</a> &gt; Classic Breakout
+            <a href="#">All Games</a> &gt; <a href="#">Arcade</a> &gt; Classic Breakout
         </div>
         <h1 class="st-title">Classic Breakout</h1>
 
-        <!-- Top Split: Game Media & Meta -->
         <div class="st-split">
             <div class="st-left">
-                <!-- THE GAME CONTAINER -->
-                <div class="game-player-frame" id="game-canvas-container">
-                    <div class="nav">
-                        <a href="playground.html">← Back to Store</a>
-                        <span>CLASSIC BREAKOUT</span>
-                    </div>
+                <div class="st-game-frame" id="game-canvas-container">
                     <div class="score-board">Score: <span id="score">0</span></div>
                     <canvas width="600" height="400" id="game"></canvas>
-                    <div class="controls">Use Mouse to move the paddle. Clear all bricks to win!</div>
+                    <div class="controls-info">Use Mouse to move the paddle.</div>
                 </div>
                 
-                <!-- Thumbnail Strip -->
                 <div class="st-thumbnails">
                     <div class="st-thumb"></div>
                     <div class="st-thumb"></div>
@@ -264,7 +68,6 @@
                     <div class="st-thumb"></div>
                 </div>
                 
-                <!-- Action Row -->
                 <div class="st-action-row">
                     <div>
                         <span class="st-action-btn">+ Add to your wishlist</span>
@@ -272,14 +75,14 @@
                         <span class="st-action-btn">Ignore ▾</span>
                         <span class="st-action-btn"><i class="fa-solid fa-share"></i></span>
                     </div>
-                    <a href="#" class="st-queue-link">View Your Queue →</a>
+                    <a href="#" style="color: #fff;">View Your Queue →</a>
                 </div>
             </div>
             
             <div class="st-right">
-                <div class="st-cover" style="background-image: url('assets/brick_breaker.png'); background-size: cover; background-position: center; font-size: 0;">assets/brick_breaker.png</div>
+                <div class="st-cover" style="background-image: url('assets/brick_breaker.png'); font-size: 0;"></div>
                 <div class="st-short-desc">
-                    A browser-based reimagining of the classic Breakout game, built from scratch in vanilla JavaScript. No download. No launcher. No install. Just your mouse and willpower.
+                    Clear every brick with a single ball and a shrinking paddle. The arcade classic, no quarters needed.
                 </div>
                 
                 <div class="st-meta-row">
@@ -299,26 +102,23 @@
                     <div class="st-meta-val"><a href="index.html">Ben Levintan</a></div>
                 </div>
                 
-                <div class="st-tags-list">
+                <div class="st-tags">
                     <div class="st-meta-label" style="width: 100%; margin-bottom: 4px;">Popular user-defined tags for this product:</div>
-                    <span class="st-tag">Browser Game</span>
-                    <span class="st-tag">Breakout</span>
-                    <span class="st-tag">Indie</span>
-                    <span class="st-tag">No Download</span>
-                    <span class="st-tag">Free to Play</span>
                     <span class="st-tag">Retro</span>
-                    <span class="st-tag plus">+</span>
+                    <span class="st-tag">Arcade</span>
+                    <span class="st-tag">Breakout</span>
+                    <span class="st-tag">Singleplayer</span>
+                    <span class="st-tag">No Download</span>
+                    <span class="st-tag" style="background: rgba(255,255,255,0.1); color: #fff;">+</span>
                 </div>
             </div>
         </div>
 
-        <!-- Release Banner -->
         <div class="st-banner">
             <div class="st-banner-text">Available Now</div>
             <div class="st-banner-sub">Free to Play — No installation required</div>
         </div>
 
-        <!-- Bottom Split: Main content & Sidebar -->
         <div class="st-split">
             <div class="st-left">
                 
@@ -326,25 +126,25 @@
                     <h1>Play Classic Breakout</h1>
                     <div class="st-play-area">
                         <div class="st-play-subtext">Runs in your browser. No sign-in required.</div>
-                        <a class="st-play-btn" onclick="document.getElementById('game-canvas-container').scrollIntoView({behavior: 'smooth'})">Play Now — It's Free</a>
+                        <button class="st-play-btn" onclick="document.getElementById('game-canvas-container').scrollIntoView({behavior: 'smooth'})">Play Now — It's Free</button>
                     </div>
                 </div>
                 
                 <h2 class="st-section-title">About This Game</h2>
                 <div class="st-about-block">
-                    Use your paddle to bounce the ball and destroy the colorful bricks. Clear the board to win. Miss the ball, and you restart. Simple rules. Unforgiving consequences.
+                    Clear every brick with a single ball and a shrinking paddle. The arcade classic, no quarters needed.
                 </div>
                 
                 <div class="st-about-block">
-                    <div class="st-about-h">FEATURES</div>
+                    <div class="st-about-h">CLEAR EVERY BRICK</div>
                     Classic paddle movement with mouse controls. Colorful rows of bricks. Score tracking. Angle manipulation based on paddle hit location. Zero loading screens. Zero microtransactions. Zero loot boxes.
-                    <div class="st-about-img">image placeholder</div>
+                    <div style="width: 100%; height: 353px; background: #2a475e; margin-top: 10px;"></div>
                 </div>
                 
                 <div class="st-about-block">
                     <div class="st-about-h">BUILT FROM SCRATCH</div>
-                    No game engine. No frameworks. Pure vanilla JavaScript and an HTML5 canvas element. The entire game logic fits in one file with a custom collision engine.
-                    <div class="st-about-img">image placeholder</div>
+                    No game engine. No frameworks. Pure vanilla JavaScript and an HTML5 canvas element. The entire game fits in one file.
+                    <div style="width: 100%; height: 353px; background: #2a475e; margin-top: 10px;"></div>
                 </div>
                 <a href="#" style="display: block; text-align: right; font-size: 12px; margin-bottom: 30px;">READ MORE</a>
                 
@@ -370,7 +170,7 @@
                             <li><strong>Browser:</strong> Chrome / Firefox (latest)</li>
                             <li><strong>Internet:</strong> Broadband</li>
                             <li><strong>Screen:</strong> 1080p or higher</li>
-                            <li><strong>Input:</strong> Mouse</li>
+                            <li><strong>Input:</strong> All relevant input devices</li>
                             <li><strong>GPU:</strong> Nvidia RTX 9090 Ti*</li>
                             <li><strong>RAM:</strong> 8GB (close your other 47 tabs)</li>
                             <li><strong>Storage:</strong> 0 bytes — it's a webpage</li>
@@ -382,39 +182,28 @@
                 </div>
                 
                 <h2 class="st-section-title">More Like This</h2>
-                <div class="st-carousel">
-                    <a href="posture-fixer.html" class="st-card">
-                        <div class="st-card-img">Posture Fixer Image</div>
+                <div style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px;">
+                    <a href="game-snake.html" class="st-card" style="width: 220px; flex-shrink: 0;">
+                        <div class="st-card-img" style="background-image: url('assets/snake_cover.png'); font-size: 0;">🐍</div>
                         <div class="st-card-info">
-                            <div class="st-card-title">Posture Fixer</div>
-                            <div class="st-card-tag">Python · Computer Vision</div>
-                            <div class="st-card-price">Free</div>
+                            <div class="st-card-title">Classic Snake</div>
+                            <div class="st-price" style="display: inline-block;">Free</div>
                         </div>
                     </a>
-                    <a href="matrix-picker.html" class="st-card">
-                        <div class="st-card-img">Matrix Picker Image</div>
+                    <a href="game-pong.html" class="st-card" style="width: 220px; flex-shrink: 0;">
+                        <div class="st-card-img">🏓</div>
                         <div class="st-card-info">
-                            <div class="st-card-title">Matrix Mask Picker</div>
-                            <div class="st-card-tag">Python · PyQt5</div>
-                            <div class="st-card-price">Free</div>
+                            <div class="st-card-title">Retro Pong</div>
+                            <div class="st-price" style="display: inline-block;">Free</div>
                         </div>
                     </a>
-                    <a href="pi-nas.html" class="st-card">
-                        <div class="st-card-img">Pi-NAS Image</div>
+                    <a href="game-tictactoe.html" class="st-card" style="width: 220px; flex-shrink: 0;">
+                        <div class="st-card-img">❌⭕</div>
                         <div class="st-card-info">
-                            <div class="st-card-title">Pi-NAS</div>
-                            <div class="st-card-tag">Hardware · Self-Hosted</div>
-                            <div class="st-card-price">Free</div>
+                            <div class="st-card-title">Tic-Tac-Toe</div>
+                            <div class="st-price" style="display: inline-block; background: transparent; color: #66c0f4;">Coming Soon</div>
                         </div>
                     </a>
-                    <div class="st-card" style="opacity: 0.5; cursor: default;">
-                        <div class="st-card-img">Coming Soon Image</div>
-                        <div class="st-card-info">
-                            <div class="st-card-title">Coming Soon</div>
-                            <div class="st-card-tag">In Development</div>
-                            <div class="st-card-price">Free</div>
-                        </div>
-                    </div>
                 </div>
                 
                 <h2 class="st-section-title">What Curators Say</h2>
@@ -431,7 +220,6 @@
                 
             </div>
             
-            <!-- Right Sidebar -->
             <div class="st-right">
                 <div class="st-sidebar-box">
                     Is this game relevant to you?<br><br>
@@ -469,12 +257,10 @@
                 </div>
                 
                 <div class="st-sidebar-box" style="background: transparent; padding: 0; display: flex; flex-direction: column; gap: 4px;">
-                    <a href="index.html" class="st-sb-feat" style="background: rgba(102,192,244,0.1);">Visit the portfolio ↗</a>
-                    <a href="https://github.com/BenLevintan" target="_blank" class="st-sb-feat" style="background: rgba(102,192,244,0.1);">GitHub ↗</a>
-                    <a href="index.html#home-projects-section" class="st-sb-feat" style="background: rgba(102,192,244,0.1);">View other projects ↗</a>
-                    <a href="posture-fixer.html" class="st-sb-feat" style="background: rgba(102,192,244,0.1);">Posture Fixer ↗</a>
-                    <a href="matrix-picker.html" class="st-sb-feat" style="background: rgba(102,192,244,0.1);">Matrix Mask Picker ↗</a>
-                    <a href="pi-nas.html" class="st-sb-feat" style="background: rgba(102,192,244,0.1);">Pi-NAS ↗</a>
+                    <a href="playground.html" class="st-sb-feat" style="background: rgba(103,193,245,0.1);">Visit the Playground ↗</a>
+                    <a href="index.html" class="st-sb-feat" style="background: rgba(103,193,245,0.1);">Portfolio ↗</a>
+                    <a href="https://github.com/BenLevintan" target="_blank" class="st-sb-feat" style="background: rgba(103,193,245,0.1);">GitHub ↗</a>
+                    <a href="index.html#home-projects-section" class="st-sb-feat" style="background: rgba(103,193,245,0.1);">View other projects ↗</a>
                 </div>
                 
                 <div style="font-size: 11px; display: flex; flex-direction: column; gap: 4px; margin-top: 20px;">
@@ -492,17 +278,11 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <div class="st-footer">
         <div class="st-footer-inner">
             <div class="st-footer-top">
                 <div class="st-footer-logos">
                     <i class="fa-brands fa-steam"></i> STEAM&reg; &nbsp;&nbsp;&nbsp; VALVE
-                </div>
-                <div class="st-socials">
-                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                    <a href="https://github.com/BenLevintan" target="_blank"><i class="fa-brands fa-github"></i></a>
-                    <a href="https://www.linkedin.com/in/ben-levintan-a5ab14291/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
                 </div>
             </div>
             <div class="st-footer-cols">
