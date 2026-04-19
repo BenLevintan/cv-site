@@ -701,6 +701,18 @@
         // Project Data
         const projectsData = [
             {
+                id: 'aerial-classification',
+                tag: 'Machine Learning',
+                tagClass: 'security',
+                icon: '🚁',
+                title: 'Aerial Object Classification',
+                desc: 'Hybrid ResNet50 + Random Forest pipeline for aerial imagery.',
+                stack: ['Python', 'PyTorch', 'ResNet50', 'Tkinter'],
+                full: 'A hybrid ML pipeline combining ResNet50 for deep feature extraction with a Random Forest classifier, achieving 99% accuracy in distinguishing drones, birds, and planes from aerial imagery.',
+                features: ['99% Accuracy', 'ResNet50 Feature Extractor', 'Custom Tkinter Analyzer Tool', 'Iterative Data Balancing'],
+                links: ['Project Page']
+            },
+            {
                 id: 'posture-fixer',
                 tag: 'Computer Vision',
                 tagClass: 'security',
@@ -798,7 +810,7 @@
 
         // Initialize App
         document.addEventListener('DOMContentLoaded', () => {
-            renderCards('home-grid', projectsData.slice(0, 4));
+            renderCards('home-grid', projectsData.slice(0, 5));
             renderCards('networking-grid', projectsData);
         });
     </script>

@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aerial Object Classification | Project Showcase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;600&family=Geist:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+    <style>
+        :root {
+            --bg: #111111;
+            --text: #f5f5f7;
+            --text-muted: #a1a1a6;
+            --card-bg: #1c1c1c;
+            --border: #333333;
+            --accent: #0066ff;
+            --highlight-bg: rgba(0, 102, 255, 0.1);
+        }
+
+        body.light-mode {
+            --bg: #fdfdfd;
+            --text: #111111;
+            --text-muted: #555555;
+            --card-bg: #ffffff;
+            --border: #e0e0e0;
+            --highlight-bg: rgba(0, 102, 255, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Geist', sans-serif;
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        .mono {
+            font-family: 'Geist Mono', monospace;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(var(--bg), 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        .back-link {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--accent);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .theme-toggle:hover {
+            color: var(--accent);
+        }
+
+        /* Layout & Typography */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+
+        .project-section {
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .project-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 32px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .section-title i {
+            color: var(--accent);
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: var(--text-muted);
+        }
+
+        strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 80px;
+            padding: 60px 0;
+            border-radius: 24px;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 200%;
+            background-image: radial-gradient(var(--border) 2px, transparent 2px);
+            background-size: 40px 40px;
+            opacity: 0.4;
+            z-index: 0;
+            animation: moveGrid 30s linear infinite;
+            mask-image: radial-gradient(ellipse at center, black 10%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 10%, transparent 70%);
+        }
+
+        @keyframes moveGrid {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-40px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .hero .tagline {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .stat-pills {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .stat-pill {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent);
+            font-family: 'Geist Mono', monospace;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-filled {
+            background: var(--accent);
+            color: #ffffff !important;
+            border: 1px solid var(--accent);
+        }
+
+        .btn-filled:hover {
+            background: #0052cc;
+            border-color: #0052cc;
+            box-shadow: 0 8px 20px rgba(0, 102, 255, 0.3);
+        }
+
+        .btn-outlined {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-outlined:hover {
+            background: var(--highlight-bg);
+            border-color: var(--accent);
+        }
+
+        /* Cards & Grids */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+            border-color: var(--accent);
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        /* Highlight Blocks */
+        .highlight-block {
+            background: var(--highlight-bg);
+            border-left: 4px solid var(--accent);
+            padding: 20px 24px;
+            border-radius: 0 12px 12px 0;
+            margin: 24px 0;
+        }
+
+        /* Tables */
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            margin: 32px 0;
+            text-align: center;
+        }
+
+        .styled-table th {
+            background: var(--accent);
+            color: #ffffff;
+            padding: 16px;
+            font-weight: 600;
+        }
+
+        .styled-table td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .styled-table tr.alt-row {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        body.light-mode .styled-table tr.alt-row {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .styled-table tr.winner-row {
+            background: rgba(46, 204, 113, 0.08);
+            font-weight: 600;
+        }
+        
+        .styled-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Diagrams */
+        .flow-diagram {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 40px;
+            background: var(--card-bg);
+            padding: 32px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .flow-node {
+            background: var(--bg);
+            border: 1px solid var(--accent);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-align: center;
+            font-family: 'Geist Mono', monospace;
+            color: var(--text);
+        }
+
+        .flow-arrow {
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+
+        /* Loop Diagram */
+        .loop-diagram-container {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            grid-template-rows: auto auto auto;
+            gap: 16px;
+            align-items: center;
+            justify-items: center;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+        }
+
+        .loop-card {
+            background: var(--bg);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-align: center;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .loop-card h4 {
+            color: var(--accent);
+            margin-bottom: 8px;
+            font-size: 1rem;
+            font-family: 'Geist Mono', monospace;
+        }
+
+        .loop-card p { margin: 0; font-size: 0.9rem; }
+
+        /* Feature List */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--bg);
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: 0.95rem;
+        }
+
+        /* Architecture Stack */
+        .arch-stack {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .arch-box {
+            width: 100%;
+            max-width: 600px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 16px 24px;
+            border-radius: 8px;
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.95rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .arch-arrow {
+            color: var(--accent);
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        /* Code Blocks */
+        pre {
+            background: #0d0d0d !important;
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 24px 0;
+        }
+        body.light-mode pre { border-color: #333; }
+        pre code {
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #ffffff !important;
+        }
+        .code-caption {
+            text-align: center; font-size: 0.9rem; color: var(--text-muted); font-style: italic; margin-top: -12px; margin-bottom: 24px;
+        }
+
+        /* Images & Media */
+        .full-img {
+            width: 100%;
+            height: auto;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            margin: 0 auto 16px;
+            display: block;
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .full-img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .poster-fallback {
+            width: 100%; height: 500px;
+            background: var(--card-bg);
+            border: 2px dashed var(--border);
+            border-radius: 16px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-size: 1.5rem; color: var(--text-muted); font-weight: 600;
+            transition: transform 0.3s;
+            margin-bottom: 16px;
+        }
+        .poster-fallback:hover { transform: scale(1.02); }
+
+        .academic-card { border-top: 4px solid #2ecc71; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .section-title { font-size: 1.5rem; }
+            .card-grid, .feature-grid { grid-template-columns: 1fr; }
+            .btn-group { flex-direction: column; }
+            .arch-box { flex-direction: column; gap: 8px; text-align: center; }
+            .arch-box span { display: block; }
+            
+            /* Loop Diagram Mobile Adjustments */
+            .loop-diagram-container {
+                display: flex; flex-direction: column; padding: 24px;
+            }
+            .loop-arrow-right, .loop-arrow-left, .loop-arrow-up { transform: rotate(90deg); margin: 8px 0; }
+            .hide-mobile { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Portfolio</a>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode"><i class="fa-solid fa-moon"></i></button>
+    </nav>
+
+    <div class="container">
+        
+        <!-- Hero Section -->
+        <section class="project-section hero">
+            <div class="hero-bg"></div>
+            <div class="hero-content">
+                <h1>Aerial Object Classification</h1>
+                <p class="tagline">Hybrid ResNet50 + Random Forest pipeline for classifying flying objects from aerial imagery</p>
+                
+                <div class="stat-pills">
+                    <div class="stat-pill">99% Accuracy</div>
+                    <div class="stat-pill">10 Object Classes</div>
+                    <div class="stat-pill">ResNet50 + Random Forest</div>
+                    <div class="stat-pill">SCE Tech Fest 25</div>
+                </div>
+
+                <div class="btn-group">
+                    <a href="https://github.com/BenLevintan" target="_blank" class="btn btn-filled"><i class="fa-brands fa-github"></i> View on GitHub</a>
+                    <a href="#poster-section" class="btn btn-outlined">View Academic Poster <i class="fa-solid fa-arrow-down"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Academic Poster -->
+        <section id="poster-section" class="project-section">
+            <h2 class="section-title"><i class="fa-solid fa-image"></i> Conference Poster</h2>
+            <p><strong>Presented at SCE Tech Fest 25</strong> — Shamoon College of Engineering, Innovation Sustainability Community</p>
+            
+            <img src="assets/poster.png" alt="SCE Tech Fest Poster" class="full-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="poster-fallback" style="display: none;">
+                <i class="fa-solid fa-file-image" style="font-size: 3rem; margin-bottom: 16px; color: var(--border);"></i>
+                Conference Poster — SCE Tech Fest 25
+            </div>
+            
+            <p style="text-align: center; font-size: 0.9rem; font-style: italic; color: var(--text-muted);">
+                Ben Levintan & <a href="https://www.linkedin.com/in/omri-buhbut-90b953243/" target="_blank" style="color: inherit; text-decoration: underline;">Omri Buhbut</a> · Advisor: Prof. Shlomo Greenberg · Computer Sciences Department
+            </p>
+        </section>
+
+        <!-- The Problem -->
+        <section class="project-section">
+            <h2 class="section-title"><i class="fa-solid fa-circle-exclamation"></i> The Problem</h2>
+            
+            <div class="highlight-block">
+                <strong>Aerial surveillance gap:</strong> Aerial object detection is a growing need across security, airspace management, and wildlife monitoring — but existing systems struggle.
+            </div>
+            <div class="highlight-block">
+                <strong>Sensor limitation:</strong> Standard RGB cameras are widely accessible but frequently fail to distinguish between visually similar flying objects like drones, birds, and small aircraft.
+            </div>
+            <div class="highlight-block">
+                <strong>Classification ambiguity:</strong> The visual similarity between object classes poses a critical challenge for automated real-time decision-making in both civilian and military applications.
+            </div>
+        </section>
+
+        <!-- The Pipeline -->
+        <section class="project-section">
+            <h2 class="section-title"><i class="fa-solid fa-network-wired"></i> How It Works</h2>
+            
+            <div class="flow-diagram">
+                <div class="flow-node">Raw Aerial Images</div>
+                <i class="fa-solid fa-arrow-right flow-arrow hide-mobile"></i><i class="fa-solid fa-arrow-down flow-arrow" style="display:none;" onload="this.classList.toggle('show-mobile')"></i>
+                <div class="flow-node">Data Gathering & Editing</div>
+                <i class="fa-solid fa-arrow-right flow-arrow hide-mobile"></i>
+                <div class="flow-node">ResNet50 Extraction<br><span style="font-size: 0.8rem; font-weight: normal;">(2048D vectors)</span></div>
+                <i class="fa-solid fa-arrow-right flow-arrow hide-mobile"></i>
+                <div class="flow-node">Random Forest</div>
+                <i class="fa-solid fa-arrow-right flow-arrow hide-mobile"></i>
+                <div class="flow-node" style="border-color: var(--text); background: var(--accent); color: #fff;">Predicted Class</div>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3 class="mono">ResNet50 Feature Extractor</h3>
+                    <p>The final classification layer of a pretrained ResNet50 is removed. The remaining network acts as a 2048-dimensional feature extractor — transforming each image into a rich numerical representation that captures deep visual patterns learned from ImageNet. No fine-tuning required.</p>
+                </div>
+                <div class="card">
+                    <h3 class="mono">Random Forest Classifier</h3>
+                    <p>The 2048D feature vector is fed into a Random Forest. Unlike end-to-end deep learning, this approach is interpretable, fast to train, and robust to overfitting. After comparing SVM, Decision Tree, and Random Forest — Random Forest was the clear winner in accuracy and stability.</p>
+                </div>
+                
+                <img src="assets/Analyzer Tool.png" alt="Image Analyzer Tool GUI" class="full-img" style="margin-top: 24px; margin-bottom: 0;">
+            </div>
+        </section>
+
+        <!-- Results -->
+        <section class="project-section">
+            <h2 class="section-title"><i class="fa-solid fa-chart-line"></i> Results</h2>
+            
+            <div class="highlight-block">
+                Random Forest + ResNet50 achieved <strong>99% accuracy</strong>, 99–100% precision, recall, and F1-score — versus 68% across all metrics for the SVM + HOG baseline.
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Accuracy</th>
+                            <th>Precision</th>
+                            <th>Recall</th>
+                            <th>F1-Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="winner-row">
+                            <td>Random Forest (ResNet-50)</td>
+                            <td>99%</td>
+                            <td>99–100%</td>
+                            <td>99–100%</td>
+                            <td>99–100%</td>
+                        </tr>
+                        <tr class="alt-row">
+                            <td>SVM + HOG</td>
+                            <td>68%</td>
+                            <td>~68%</td>
+                            <td>~68%</td>
+                            <td>~68%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <p style="margin: 0;">CNNs like ResNet automatically learn visual features directly from pixel data. SVM with HOG relies on handcrafted gradient features — fundamentally limited for complex aerial imagery where objects share similar silhouettes.</p>
+            </div>
+        </section>
+
+        <!-- Dataset -->
+        <section class="project-section">
+            <h2 class="section-title"><i class="fa-solid fa-database"></i> Dataset</h2>
+            <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+                <div class="card">
+                    <h3 class="mono">Scale</h3>
+                    <p>Thousands of aerial images collected from conflict zone footage, online video sources, and public datasets. Cropped, resized to 224×224, and frame-sampled from video using custom Python scripts.</p>
+                </div>
+                <div class="card">
+                    <h3 class="mono">10 Balanced Classes</h3>
+                    <p>Dataset covers 10 object categories. Class ratios were rebalanced and augmented iteratively to address misclassification patterns identified during training.</p>
+                </div>
+                <div class="card">
+                    <h3 class="mono">Feature Vectors</h3>
+                    <p>Each image is transformed into a 2048-dimensional feature vector by the ResNet50 extractor. Train/test split: 80% / 20%.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Methodology -->
+        <section class="project-section">
+            <h2 class="section-title"><i class="fa-solid fa-rotate"></i> Methodology</h2>
+            
+            <div class="loop-diagram-container">
+                <!-- Top Row -->
+                <div class="loop-card">
+                    <h4>1. Data Gathering</h4>
+                    <p>Collected thousands of aerial images from videos and online sources</p>
+                </div>
+                <i class="fa-solid fa-arrow-right flow-arrow loop-arrow-right hide-mobile"></i>
+                <div class="loop-card">
+                    <h4>2. Data Editing</h4>
+                    <p>Cropping, resizing, frame sampling, augmentation using Python scripts</p>
+                </div>
+                
+                <!-- Middle Row (Arrows) -->
+                <i class="fa-solid fa-arrow-up flow-arrow loop-arrow-up hide-mobile"></i>
+                <div class="hide-mobile"></div>
+                <i class="fa-solid fa-arrow-down flow-arrow hide-mobile"></i>
+
+                <!-- Bottom Row -->
+                <div class="loop-card">
+                    <h4>4. Results Analysis</h4>
+                    <p>Used custom Image Analyzer GUI and YOLOv8 to visualize results</p>
+                </div>
+                <i class="fa-solid fa-arrow-left flow-arrow loop-arrow-left hide-mobile"></i>
+                <div class="loop-card">
+                    <h4>3. Model Training</h4>
+                    <p>Compared models, fine-tuned hyperparameters</p>
+                </div>
+            </div>
+
+            <p style="text-align: center; max-width: 800px; margin: 0 auto;"><strong>Iterative Loop:</strong> Each iteration refined the dataset based on where the model was misclassifying — rebalancing class ratios and adding targeted augmentations until accuracy plateaued.</p>
+        </section>
+
+        <!-- Image Analyzer Tool -->
+        <section class="project-section">
+            <h2 class="section-title"><i class="fa-solid fa-desktop"></i> Image Analyzer Tool</h2>
+            
+            <div class="card" style="border-left: 4px solid var(--accent);">
+                <p style="margin-bottom: 8px;">A custom Tkinter desktop GUI was built to interactively analyze test images against the trained model. Load any .pkl Random Forest model, point it at a folder of test images, and navigate through predictions one by one — with class probabilities displayed as a bar chart and the predicted class highlighted.</p>
+                
+                <div class="feature-grid">
+                    <div class="feature-item"><i class="fa-solid fa-file-code" style="color:var(--accent);"></i> Load any .pkl scikit-learn model</div>
+                    <div class="feature-item"><i class="fa-solid fa-folder-open" style="color:var(--accent);"></i> Browse test image directories</div>
+                    <div class="feature-item"><i class="fa-solid fa-chart-bar" style="color:var(--accent);"></i> Live probability bar chart (matplotlib)</div>
+                    <div class="feature-item"><i class="fa-solid fa-check-double" style="color:var(--accent);"></i> True class inferred from folder path</div>
+                </div>
+            </div>
+
+<pre><code class="language-python"># ResNet50 as a feature extractor — remove final classification layer
+self.feature_extractor = models.resnet50(weights=ResNet50_Weights.IMAGENET1K_V1)
+self.feature_extractor = torch.nn.Sequential(
+    *list(self.feature_extractor.children())[:-1]
+)
+
+# Extract 2048-dimensional feature vector
+with torch.no_grad():
+    features = self.feature_extractor(input_batch).squeeze().cpu().numpy()
+
+# Classify with Random Forest
+probabilities = self.model.predict_proba(features.reshape(1, -1))[0]</code></pre>
+            <div class="code-caption">The final avgpool layer output of ResNet50 produces a 2048D vector — rich enough for a Random Forest to achieve near-perfect separation between classes.</div>
+        </section>
+
+        <!-- Project Structure -->
+        <section class="project-section">
+            <h2 class="section-title"><i class="fa-solid fa-sitemap"></i> Project Structure</h2>
+            
+            <div class="arch-stack">
+                <div class="arch-box"><strong>forrest.py</strong> <span style="color:var(--text-muted);">— Main training pipeline</span></div>
+                <div class="arch-arrow">↓ saves</div>
+                <div class="arch-box" style="border-color: var(--accent);"><strong>model.pkl</strong> <span style="color:var(--text-muted);">— Trained Random Forest</span></div>
+                <div class="arch-arrow">↑ loaded by</div>
+                <div class="arch-box"><strong>forrest_analyzer.py</strong> <span style="color:var(--text-muted);">— GUI prediction tool</span></div>
+                <div class="arch-arrow">↑ uses</div>
+                <div class="arch-box"><strong>RESnet.py</strong> <span style="color:var(--text-muted);">— ResNet50 feature extractor module</span></div>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>File</th>
+                            <th>Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="mono">forrest.py</td>
+                            <td>Trains Random Forest on ResNet50 features, saves .pkl</td>
+                        </tr>
+                        <tr class="alt-row">
+                            <td class="mono">forrest_analyzer.py</td>
+                            <td>Tkinter GUI for interactive prediction visualization</td>
+                        </tr>
+                        <tr>
+                            <td class="mono">RESnet.py</td>
+                            <td>ResNet50 feature extractor (removes final layer)</td>
+                        </tr>
+                        <tr class="alt-row">
+                            <td class="mono">resnet_image_analyzer.py</td>
+                            <td>Prototype analyzer — earlier iteration</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Tech Stack -->
+        <section class="project-section">
+            <h2 class="section-title"><i class="fa-solid fa-cubes"></i> Tech Stack</h2>
+            <div class="stat-pills" style="margin-bottom: 16px;">
+                <div class="stat-pill" style="color:var(--text); border-color:var(--border);">Python</div>
+                <div class="stat-pill" style="color:var(--text); border-color:var(--border);">PyTorch</div>
+                <div class="stat-pill" style="color:var(--text); border-color:var(--border);">torchvision</div>
+                <div class="stat-pill" style="color:var(--text); border-color:var(--border);">scikit-learn</div>
+                <div class="stat-pill" style="color:var(--text); border-color:var(--border);">ResNet50</div>
+            </div>
+            <div class="stat-pills">
+                <div class="stat-pill" style="color:var(--text); border-color:var(--border);">NumPy</div>
+                <div class="stat-pill" style="color:var(--text); border-color:var(--border);">Matplotlib</div>
+                <div class="stat-pill" style="color:var(--text); border-color:var(--border);">Pillow</div>
+                <div class="stat-pill" style="color:var(--text); border-color:var(--border);">Tkinter</div>
+                <div class="stat-pill" style="color:var(--text); border-color:var(--border);">Joblib</div>
+            </div>
+        </section>
+
+        <!-- Academic Context -->
+        <section class="project-section">
+            <h2 class="section-title"><i class="fa-solid fa-graduation-cap"></i> Academic Context</h2>
+            <div class="card academic-card">
+                <ul style="list-style: none; line-height: 2;">
+                    <li><strong>Institution:</strong> Shamoon College of Engineering (SCE)</li>
+                    <li><strong>Event:</strong> SCE Tech Fest 25 — Innovation Sustainability Community</li>
+                    <li><strong>Department:</strong> Computer Sciences</li>
+                    <li><strong>Team:</strong> Ben Levintan & Omri Buhbut
+                        <a href="https://github.com/omrib787" target="_blank" style="color: var(--text); text-decoration: none; margin-left: 8px;" title="GitHub"><i class="fa-brands fa-github"></i></a>
+                        <a href="https://www.linkedin.com/in/omri-buhbut-90b953243/" target="_blank" style="color: var(--accent); text-decoration: none; margin-left: 4px;" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                    </li>
+                    <li><strong>Advisor:</strong> Prof. Shlomo Greenberg</li>
+                    <li><strong>Year:</strong> 2025</li>
+                </ul>
+            </div>
+            <p style="margin-top: 16px;">This project was submitted as part of the Computer Sciences curriculum and presented at the annual SCE Tech Fest innovation showcase.</p>
+        </section>
+
+    </div>
+
+    <script>
+        // Syntax Highlighting
+        document.addEventListener('DOMContentLoaded', (event) => {
+            hljs.highlightAll();
+        });
+
+        // Theme Toggle Logic
+        const themeBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+        const icon = themeBtn.querySelector('i');
+        
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') {
+            body.classList.add('light-mode');
+            icon.classList.replace('fa-moon', 'fa-sun');
+        }
+        
+        themeBtn.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+            const isLight = body.classList.contains('light-mode');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            
+            if (isLight) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+        });
+
+        // Scroll Animations Observer
+        document.addEventListener("DOMContentLoaded", () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.project-section').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
