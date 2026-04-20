@@ -19,18 +19,6 @@
             width: 100%;
             min-height: 353px;
         }
-        .nav {
-            width: 400px;
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        .nav a {
-            color: #66c0f4;
-            text-decoration: none;
-            font-size: 14px;
-        }
-        .nav a:hover { color: #fff; }
         canvas {
             background: #000;
             border: 2px solid #2a475e;
@@ -102,12 +90,8 @@
             <div class="st-left">
                 <!-- THE GAME CONTAINER -->
                 <div class="game-player-frame" id="game-canvas-container">
-                    <div class="nav">
-                        <a href="playground.html">← Back to Store</a>
-                        <span>CLASSIC SNAKE</span>
-                    </div>
                     <div class="score-board">Score: <span id="score">0</span></div>
-                    <canvas width="400" height="400" id="game"></canvas>
+                    <canvas width="608" height="480" id="game"></canvas>
                     <div class="controls">Use Arrow Keys to move.</div>
                 </div>
                 
@@ -443,8 +427,8 @@
                     snake.maxCells++;
                     score += 10;
                     document.getElementById('score').innerText = score;
-                    apple.x = getRandomInt(0, 25) * grid;
-                    apple.y = getRandomInt(0, 25) * grid;
+                    apple.x = getRandomInt(0, canvas.width / grid) * grid;
+                    apple.y = getRandomInt(0, canvas.height / grid) * grid;
                 }
                 for (let i = index + 1; i < snake.cells.length; i++) {
                     if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
