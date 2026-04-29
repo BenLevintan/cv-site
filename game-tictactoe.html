@@ -54,9 +54,21 @@
 
         <div class="st-split">
             <div class="st-left">
-                <div class="st-game-frame" style="background: #2a475e;">
-                    <div style="font-size: 24px; color: #66c0f4; margin-bottom: 8px;">Coming Soon</div>
-                    <div style="color: #c6d4df;">This game is currently in development.</div>
+                <div class="st-game-frame" id="game-canvas-container">
+                    <div class="score-board" style="font-size: 20px; font-weight: bold; margin-bottom: 10px; color: #a4d007;">
+                        Player: <span id="score-player">0</span> | AI: <span id="score-ai">0</span>
+                    </div>
+                    <canvas width="600" height="400" id="game"></canvas>
+                    <div class="controls-info" style="margin-top: 10px; color: #8f98a0; font-size: 12px; display: flex; gap: 15px; align-items: center;">
+                        <span>Difficulty: 
+                            <select id="difficulty" style="background: #1b2838; color: #66c0f4; border: 1px solid #2a475e; padding: 2px;">
+                                <option value="1">Level 1: Absolute Random</option>
+                                <option value="2">Level 2: Mixed (Random/Calculated)</option>
+                                <option value="3" selected>Level 3: Only Calculated</option>
+                            </select>
+                        </span>
+                        <button onclick="resetGame()" style="background: #2a475e; color: #fff; border: none; padding: 4px 10px; border-radius: 2px; cursor: pointer;">Restart</button>
+                    </div>
                 </div>
                 
                 <div class="st-thumbnails">
@@ -81,7 +93,7 @@
             <div class="st-right">
                 <div class="st-cover" style="font-size: 48px;">❌⭕</div>
                 <div class="st-short-desc">
-                    The classic game of Xs and Os. Face off against the computer or challenge a friend. It's not out yet, but it will be soon.
+                    The classic game of Xs and Os. Face off against the AI with 3 distinct levels of difficulty.
                 </div>
                 
                 <div class="st-meta-row">
@@ -90,7 +102,7 @@
                 </div>
                 <div class="st-meta-row">
                     <div class="st-meta-label">RELEASE DATE:</div>
-                    <div class="st-meta-val" style="color: #8f98a0;">TBD</div>
+                    <div class="st-meta-val" style="color: #8f98a0;">Available Now</div>
                 </div>
                 <div class="st-meta-row" style="margin-top: 10px;">
                     <div class="st-meta-label">DEVELOPER:</div>
@@ -103,18 +115,18 @@
                 
                 <div class="st-tags">
                     <div class="st-meta-label" style="width: 100%; margin-bottom: 4px;">Popular user-defined tags for this product:</div>
-                    <span class="st-tag">Coming Soon</span>
+                    <span class="st-tag">Retro</span>
                     <span class="st-tag">Tic-Tac-Toe</span>
-                    <span class="st-tag">Multiplayer</span>
+                    <span class="st-tag">Singleplayer</span>
                     <span class="st-tag">Indie</span>
                     <span class="st-tag" style="background: rgba(255,255,255,0.1); color: #fff;">+</span>
                 </div>
             </div>
         </div>
 
-        <div class="st-banner" style="background: linear-gradient(to right, #434953, #2f343a);">
-            <div class="st-banner-text">Coming Soon</div>
-            <div class="st-banner-sub" style="color: #8f98a0;">This item is not yet available.</div>
+        <div class="st-banner">
+            <div class="st-banner-text">Available Now</div>
+            <div class="st-banner-sub">Free to Play — No installation required</div>
         </div>
 
         <div class="st-split">
@@ -123,8 +135,8 @@
                 <div class="st-purchase-box">
                     <h1>Tic-Tac-Toe</h1>
                     <div class="st-play-area">
-                        <div class="st-play-subtext">Be the first to know when it launches.</div>
-                        <button class="st-play-btn" style="background: #16202d; color: #66c0f4;" disabled>Wishlist for Updates</button>
+                        <div class="st-play-subtext">Runs in your browser. No sign-in required.</div>
+                        <button class="st-play-btn" onclick="document.getElementById('game-canvas-container').scrollIntoView({behavior: 'smooth'})">Play Now — It's Free</button>
                     </div>
                 </div>
                 
@@ -194,7 +206,7 @@
                     <strong>GENRE:</strong> <a href="#">Indie</a><br>
                     <strong>DEVELOPER:</strong> <a href="index.html">Ben Levintan</a><br>
                     <strong>PUBLISHER:</strong> <a href="index.html">Ben Levintan</a><br>
-                    <strong>RELEASE DATE:</strong> TBD
+                    <strong>RELEASE DATE:</strong> Available Now
                 </div>
                 
                 <div class="st-sidebar-box" style="background: transparent; padding: 0; display: flex; flex-direction: column; gap: 4px;">
@@ -236,5 +248,230 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const canvas = document.getElementById('game');
+        const ctx = canvas.getContext('2d');
+        const diffSelect = document.getElementById('difficulty');
+        
+        const cellSize = 100;
+        const gridOffset = { x: 150, y: 50 }; // Centers 300x300 grid
+        
+        let board = Array(9).fill(null);
+        let playerScore = 0;
+        let aiScore = 0;
+        let aiTurnCount = 0;
+        let gameOver = false;
+        
+        function drawGrid() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = '#2a475e';
+            ctx.lineWidth = 4;
+            
+            // Vertical lines
+            ctx.beginPath();
+            ctx.moveTo(gridOffset.x + cellSize, gridOffset.y);
+            ctx.lineTo(gridOffset.x + cellSize, gridOffset.y + cellSize * 3);
+            ctx.moveTo(gridOffset.x + cellSize * 2, gridOffset.y);
+            ctx.lineTo(gridOffset.x + cellSize * 2, gridOffset.y + cellSize * 3);
+            
+            // Horizontal lines
+            ctx.moveTo(gridOffset.x, gridOffset.y + cellSize);
+            ctx.lineTo(gridOffset.x + cellSize * 3, gridOffset.y + cellSize);
+            ctx.moveTo(gridOffset.x, gridOffset.y + cellSize * 2);
+            ctx.lineTo(gridOffset.x + cellSize * 3, gridOffset.y + cellSize * 2);
+            ctx.stroke();
+            
+            // Draw X's and O's
+            for(let i = 0; i < 9; i++) {
+                if(board[i]) {
+                    let r = Math.floor(i / 3);
+                    let c = i % 3;
+                    let x = gridOffset.x + c * cellSize + cellSize / 2;
+                    let y = gridOffset.y + r * cellSize + cellSize / 2;
+                    
+                    ctx.font = "bold 60px Arial";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    if(board[i] === 'X') {
+                        ctx.fillStyle = '#66c0f4';
+                        ctx.fillText('X', x, y);
+                    } else {
+                        ctx.fillStyle = '#ff375f';
+                        ctx.fillText('O', x, y);
+                    }
+                }
+            }
+            
+            let winner = checkWin(board);
+            if(winner || isFull(board)) {
+                ctx.fillStyle = 'rgba(0,0,0,0.8)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = winner === 'X' ? '#a4d007' : (winner === 'O' ? '#ff375f' : '#fff');
+                ctx.font = "bold 40px Arial";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText(winner ? (winner === 'X' ? "You Win!" : "AI Wins!") : "Draw!", canvas.width / 2, canvas.height / 2);
+                ctx.font = "20px Arial";
+                ctx.fillStyle = '#8f98a0';
+                ctx.fillText("Click anywhere to play again", canvas.width / 2, canvas.height / 2 + 40);
+            }
+        }
+        
+        function checkWin(b) {
+            const wins = [
+                [0,1,2], [3,4,5], [6,7,8], // Rows
+                [0,3,6], [1,4,7], [2,5,8], // Cols
+                [0,4,8], [2,4,6]          // Diags
+            ];
+            for(let w of wins) {
+                if(b[w[0]] && b[w[0]] === b[w[1]] && b[w[0]] === b[w[2]]) {
+                    return b[w[0]];
+                }
+            }
+            return null;
+        }
+        
+        function isFull(b) {
+            return b.every(cell => cell !== null);
+        }
+        
+        canvas.addEventListener('click', (e) => {
+            if(gameOver) { window.resetGame(); return; }
+            
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left - gridOffset.x;
+            const y = e.clientY - rect.top - gridOffset.y;
+            
+            if(x >= 0 && x <= cellSize * 3 && y >= 0 && y <= cellSize * 3) {
+                const c = Math.floor(x / cellSize);
+                const r = Math.floor(y / cellSize);
+                const idx = r * 3 + c;
+                
+                if(!board[idx]) {
+                    board[idx] = 'X';
+                    drawGrid();
+                    if(!checkGameState()) {
+                        setTimeout(aiTurn, 250); // Slight delay for AI
+                    }
+                }
+            }
+        });
+        
+        function checkGameState() {
+            let winner = checkWin(board);
+            if(winner) {
+                gameOver = true;
+                if(winner === 'X') { playerScore++; document.getElementById('score-player').innerText = playerScore; }
+                if(winner === 'O') { aiScore++; document.getElementById('score-ai').innerText = aiScore; }
+                drawGrid();
+                return true;
+            } else if(isFull(board)) {
+                gameOver = true;
+                drawGrid();
+                return true;
+            }
+            return false;
+        }
+        
+        function aiTurn() {
+            if(gameOver) return;
+            
+            let difficulty = parseInt(diffSelect.value);
+            let move;
+            aiTurnCount++;
+            
+            if(difficulty === 1) { // Absolute random
+                move = getRandomMove(board);
+            } else if(difficulty === 2) { // 1 random, 1 calculated
+                if(aiTurnCount % 2 === 0) {
+                    move = getRandomMove(board);
+                } else {
+                    move = getBestMove(board);
+                }
+            } else { // Only calculated
+                move = getBestMove(board);
+            }
+            
+            if(move !== null && move !== undefined) {
+                board[move] = 'O';
+            }
+            
+            drawGrid();
+            checkGameState();
+        }
+        
+        function getRandomMove(b) {
+            let avail = [];
+            for(let i = 0; i < 9; i++) if(!b[i]) avail.push(i);
+            if(avail.length === 0) return null;
+            return avail[Math.floor(Math.random() * avail.length)];
+        }
+        
+        function minimax(b, depth, isMax) {
+            let winner = checkWin(b);
+            if(winner === 'O') return 10 - depth;
+            if(winner === 'X') return depth - 10;
+            if(isFull(b)) return 0;
+            
+            if(isMax) {
+                let best = -Infinity;
+                for(let i = 0; i < 9; i++) {
+                    if(!b[i]) {
+                        b[i] = 'O';
+                        best = Math.max(best, minimax(b, depth + 1, false));
+                        b[i] = null;
+                    }
+                }
+                return best;
+            } else {
+                let best = Infinity;
+                for(let i = 0; i < 9; i++) {
+                    if(!b[i]) {
+                        b[i] = 'X';
+                        best = Math.min(best, minimax(b, depth + 1, true));
+                        b[i] = null;
+                    }
+                }
+                return best;
+            }
+        }
+        
+        function getBestMove(b) {
+            let bestScore = -Infinity;
+            let move = null;
+            for(let i = 0; i < 9; i++) {
+                if(!b[i]) {
+                    b[i] = 'O';
+                    let score = minimax(b, 0, false);
+                    b[i] = null;
+                    if(score > bestScore || (score === bestScore && Math.random() > 0.5 && move === null)) {
+                        bestScore = score;
+                        move = i;
+                    }
+                }
+            }
+            return move;
+        }
+        
+        window.resetGame = function() {
+            board = Array(9).fill(null);
+            gameOver = false;
+            aiTurnCount = 0; 
+            drawGrid();
+        };
+        
+        // Listen to difficulty change to reset game completely
+        diffSelect.addEventListener('change', () => {
+            window.resetGame();
+            playerScore = 0;
+            aiScore = 0;
+            document.getElementById('score-player').innerText = playerScore;
+            document.getElementById('score-ai').innerText = aiScore;
+        });
+        
+        // Init
+        drawGrid();
+    </script>
 </body>
 </html>
