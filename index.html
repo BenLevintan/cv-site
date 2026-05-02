@@ -294,25 +294,25 @@
     }
 
     .tag.networking {
-        color: var(--blue);
+        color: #66b3ff;
         background: rgba(41, 151, 255, 0.1);
         border: 0.5px solid rgba(41, 151, 255, 0.2);
     }
 
     .tag.webdev {
-        color: var(--green);
+        color: #5edb7d;
         background: rgba(48, 209, 88, 0.1);
         border: 0.5px solid rgba(48, 209, 88, 0.2);
     }
 
     .tag.security {
-        color: var(--red);
+        color: #ff6b8b;
         background: rgba(255, 55, 95, 0.1);
         border: 0.5px solid rgba(255, 55, 95, 0.2);
     }
 
     .tag.systems {
-        color: var(--amber);
+        color: #ffc466;
         background: rgba(255, 159, 10, 0.1);
         border: 0.5px solid rgba(255, 159, 10, 0.2);
     }
@@ -559,6 +559,16 @@
             grid-template-columns: 1fr;
         }
         h1 { font-size: 40px; }
+        
+        .nav-links {
+            overflow-x: auto;
+            white-space: nowrap;
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        .nav-links::-webkit-scrollbar {
+            display: none;
+        }
     }
 </style>
 </head>
@@ -568,7 +578,7 @@
         <div class="nav-logo" onclick="navigate('page-home', document.getElementById('nav-home'))">Ben Levintan</div>
         <ul class="nav-links">
             <li id="nav-home" class="active" onclick="navigate('page-home', this)">Work</li>
-            <li id="nav-networking" onclick="navigate('page-networking', this)">Networking</li>
+            <li id="nav-all-projects" onclick="navigate('page-all-projects', this)">All Projects</li>
             <li id="nav-about" onclick="navigate('page-about', this)">About</li>
             <li id="nav-contact" onclick="navigate('page-contact', this)">Contact</li>
         </ul>
@@ -600,8 +610,8 @@
                 <div class="stat-label">Certifications</div>
             </div>
             <div class="stat-cell">
-                <div class="stat-number gradient-text">8k+</div>
-                <div class="stat-label">Lines of code</div>
+                <div class="stat-number gradient-text">15+</div>
+                <div class="stat-label">Active Repos</div>
             </div>
         </div>
 
@@ -611,11 +621,11 @@
         </div>
     </main>
 
-    <!-- Page 2: Networking -->
-    <main id="page-networking" class="page">
+    <!-- Page 2: All Projects -->
+    <main id="page-all-projects" class="page">
         <h2 class="gradient-text">All Projects</h2>
         <p style="margin-bottom: 48px; max-width: 600px;">A comprehensive view of my work across networking architecture, software development, systems automation, and security.</p>
-        <div id="networking-grid" class="project-grid"></div>
+        <div id="all-projects-grid" class="project-grid"></div>
     </main>
 
     <!-- Page 4: About -->
@@ -823,7 +833,7 @@
         // Initialize App
         document.addEventListener('DOMContentLoaded', () => {
             renderCards('home-grid', projectsData);
-            renderCards('networking-grid', projectsData);
+            renderCards('all-projects-grid', projectsData);
         });
     </script>
 </body>
