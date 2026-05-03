@@ -8,51 +8,125 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
 <script>hljs.highlightAll();</script>
 <style>
+    :root {
+        --bg: #0f0f0f;
+        --bg-nav: rgba(15, 15, 15, 0.8);
+        --text: #f5f5f7;
+        --text-muted: #a1a1a6;
+        --card-bg: #111111;
+        --border: #222222;
+        --border-light: #333333;
+        --accent: #2ECC71;
+        --accent-rgb: 46, 204, 113;
+        --btn-bg: #f5f5f7;
+        --btn-text: #0f0f0f;
+        --app-bg: #1a1a1a;
+        --app-title: #2a2a2a;
+        --app-border: rgba(255,255,255,0.08);
+        --term-bg: #0d0d0d;
+        --tech-pill: #ccc;
+        --demo-bg: #111111;
+    }
+
+    body.light-mode {
+        --bg: #fdfdfd;
+        --bg-nav: rgba(253, 253, 253, 0.8);
+        --text: #111111;
+        --text-muted: #555555;
+        --card-bg: #ffffff;
+        --border: #e0e0e0;
+        --border-light: #d0d0d0;
+        --btn-bg: #111111;
+        --btn-text: #fdfdfd;
+        --app-bg: #ffffff;
+        --app-title: #f0f0f0;
+        --app-border: rgba(0,0,0,0.1);
+        --term-bg: #f8f8f8;
+        --tech-pill: #333;
+        --demo-bg: #fdfdfd;
+    }
+
     /* Scoped Overrides for Matrix Mask Picker Theme */
     body {
-        background-color: #0f0f0f;
+        background-color: var(--bg);
+        color: var(--text);
+        transition: background-color 0.3s, color 0.3s;
     }
     .matrix-main {
         font-family: 'DM Sans', sans-serif;
-        color: #f5f5f7;
+        color: var(--text);
         max-width: 1048px;
         margin: 0 auto;
         padding: 48px 24px 120px;
     }
+    
+    /* Navigation */
+    nav {
+        position: sticky;
+        top: 0;
+        background: var(--bg-nav);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        padding: 16px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        transition: background 0.3s, border-color 0.3s;
+    }
+
+    .back-link {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: color 0.2s;
+    }
+
+    .back-link:hover {
+        color: var(--accent);
+    }
+
+    .theme-toggle {
+        background: none;
+        border: none;
+        color: var(--text);
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    .theme-toggle:hover {
+        color: var(--accent);
+    }
+
     .matrix-main h1, .matrix-main h2, .matrix-main h3, .matrix-main h4, .matrix-main .mono {
         font-family: 'JetBrains Mono', monospace;
     }
     .matrix-main h2 {
-        color: #2ECC71;
+        color: var(--accent);
         font-size: 28px;
         margin-top: 80px;
         margin-bottom: 32px;
-        border-bottom: 1px solid rgba(46, 204, 113, 0.2);
+        border-bottom: 1px solid rgba(var(--accent-rgb), 0.2);
         padding-bottom: 12px;
     }
     .matrix-main p {
         font-size: 16px;
-        color: #a1a1a6;
+        color: var(--text-muted);
         line-height: 1.7;
         margin-bottom: 16px;
     }
     .matrix-main strong {
-        color: #f5f5f7;
-    }
-    .back-link {
-        cursor: pointer;
-        color: #a1a1a6;
-        font-size: 14px;
-        display: inline-block;
-        transition: color 0.2s;
-        margin-bottom: 48px;
-    }
-    .back-link:hover {
-        color: #f5f5f7;
+        color: var(--text);
     }
     
     /* Hero */
@@ -61,17 +135,18 @@
         text-align: center; 
         margin-bottom: 64px; 
         padding: 80px 24px;
-        border: 1px solid rgba(255,255,255,0.05);
+        border: 1px solid var(--app-border);
         border-radius: 16px;
-        background-color: #111;
+        background-color: var(--card-bg);
         overflow: hidden;
+        transition: background 0.3s, border-color 0.3s;
     }
     .hero-bg {
         position: absolute;
         inset: 0;
         background-image: 
-            linear-gradient(rgba(46, 204, 113, 0.05) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(46, 204, 113, 0.05) 1px, transparent 1px);
+            linear-gradient(rgba(var(--accent-rgb), 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(var(--accent-rgb), 0.05) 1px, transparent 1px);
         background-size: 30px 30px;
         background-position: center center;
         z-index: 0;
@@ -85,21 +160,21 @@
         position: relative;
         z-index: 1;
     }
-    .hero h1 { font-size: 48px; color: #2ECC71; margin-bottom: 16px; letter-spacing: -1px; }
-    .hero p { font-size: 18px; color: #a1a1a6; margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto;}
+    .hero h1 { font-size: 48px; color: var(--accent); margin-bottom: 16px; letter-spacing: -1px; }
+    .hero p { font-size: 18px; color: var(--text-muted); margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto;}
     .btn-github {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        background: #f5f5f7;
-        color: #0f0f0f;
+        background: var(--btn-bg);
+        color: var(--btn-text);
         padding: 12px 24px;
         border-radius: 6px;
         font-weight: 700;
         font-family: 'JetBrains Mono', monospace;
         text-decoration: none;
         font-size: 14px;
-        transition: transform 0.2s;
+        transition: transform 0.2s, background 0.3s, color 0.3s;
     }
     .btn-github:hover { transform: translateY(-2px); }
 
@@ -110,25 +185,27 @@
         justify-content: space-between;
         gap: 12px;
         flex-wrap: wrap;
-        background: #111;
+        background: var(--card-bg);
         padding: 32px;
         border-radius: 12px;
-        border: 1px solid #222;
+        border: 1px solid var(--border);
+        transition: background 0.3s, border-color 0.3s;
     }
     .wf-step {
-        background: #1a1a1a;
-        border: 1px solid #333;
+        background: var(--app-bg);
+        border: 1px solid var(--border-light);
         padding: 12px 20px;
         border-radius: 6px;
         font-family: 'JetBrains Mono', monospace;
         font-size: 14px;
-        color: #f5f5f7;
+        color: var(--text);
         text-align: center;
         flex: 1;
         min-width: 120px;
+        transition: background 0.3s, border-color 0.3s, color 0.3s;
     }
     .wf-arrow {
-        color: #2ECC71;
+        color: var(--accent);
         font-family: 'JetBrains Mono', monospace;
         font-size: 18px;
         font-weight: bold;
@@ -141,27 +218,27 @@
         gap: 24px;
     }
     .type-card, .feat-card {
-        background: #111;
-        border: 1px solid #222;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
         border-radius: 12px;
         padding: 32px;
-        transition: border-color 0.3s ease;
+        transition: border-color 0.3s ease, background 0.3s;
         text-align: center;
     }
     .type-card:hover, .feat-card:hover {
-        border-color: #2ECC71;
+        border-color: var(--accent);
     }
     .type-card h4, .feat-card h4 {
-        color: #f5f5f7;
+        color: var(--text);
         font-size: 18px;
         margin-bottom: 12px;
     }
     .mini-grid {
         margin: 0 auto 24px auto;
         background-image: 
-            linear-gradient(#333 1px, transparent 1px),
-            linear-gradient(90deg, #333 1px, transparent 1px);
-        border: 1px solid #444;
+            linear-gradient(var(--border-light) 1px, transparent 1px),
+            linear-gradient(90deg, var(--border-light) 1px, transparent 1px);
+        border: 1px solid var(--border-light);
         border-radius: 4px;
     }
     .mg-12 {
@@ -199,8 +276,8 @@
         flex-wrap: wrap;
     }
     .arch-box {
-        background: #1a1a1a;
-        border: 1px solid #333;
+        background: var(--app-bg);
+        border: 1px solid var(--border-light);
         border-radius: 8px;
         padding: 20px;
         flex: 1;
@@ -209,10 +286,11 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        transition: background 0.3s, border-color 0.3s;
     }
-    .arch-box h4 { color: #2ECC71; margin-bottom: 8px; font-size: 14px; }
-    .arch-box p { font-size: 13px; color: #888; margin-bottom: 0; line-height: 1.4; }
-    .arch-arrow { color: #555; font-size: 20px; font-family: 'JetBrains Mono', monospace; display: flex; align-items: center; }
+    .arch-box h4 { color: var(--accent); margin-bottom: 8px; font-size: 14px; }
+    .arch-box p { font-size: 13px; color: var(--text-muted); margin-bottom: 0; line-height: 1.4; }
+    .arch-arrow { color: var(--text-muted); font-size: 20px; font-family: 'JetBrains Mono', monospace; display: flex; align-items: center; }
 
     /* Features Grid specific */
     .features-grid {
@@ -231,17 +309,18 @@
 
     /* Code & Tech Pills */
     pre {
-        background: #111 !important;
-        border: 1px solid #222;
+        background: var(--card-bg) !important;
+        border: 1px solid var(--border) !important;
         border-radius: 12px;
         padding: 24px;
         overflow-x: auto;
         font-size: 14px;
         line-height: 1.5;
+        transition: background 0.3s, border-color 0.3s;
     }
     .code-caption {
         font-size: 13px;
-        color: #888;
+        color: var(--text-muted);
         margin-top: 12px;
         text-align: center;
     }
@@ -252,16 +331,17 @@
         justify-content: center;
         margin-top: 64px;
         padding-top: 48px;
-        border-top: 1px solid #222;
+        border-top: 1px solid var(--border);
     }
     .tech-pill {
-        background: #1a1a1a;
-        border: 1px solid #333;
+        background: var(--app-bg);
+        border: 1px solid var(--border-light);
         padding: 8px 16px;
         border-radius: 6px;
         font-family: 'JetBrains Mono', monospace;
         font-size: 14px;
-        color: #ccc;
+        color: var(--tech-pill);
+        transition: background 0.3s, border-color 0.3s, color 0.3s;
     }
 
     /* Motion */
@@ -281,15 +361,11 @@
 </head>
 <body>
     <nav>
-        <div class="nav-logo" onclick="window.location.href='index.html'">Ben Levintan</div>
-        <ul class="nav-links">
-            <li onclick="window.location.href='index.html'">← Back</li>
-        </ul>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Portfolio</a>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode"><i class="fa-solid fa-moon"></i></button>
     </nav>
     
     <main class="matrix-main">
-        <div class="back-link" onclick="window.location.href='index.html'">← Back to Portfolio</div>
-        
         <div class="hero fade-in">
             <div class="hero-bg"></div>
             <h1 class="mono">Matrix Mask Picker</h1>
@@ -326,11 +402,11 @@
             <div class="demo-wrap">
                 <style>
                   .demo-wrap { padding: 1rem 0; font-family: monospace; }
-                  .demo-title { font-size: 13px; color: #888; margin-bottom: 1.5rem; text-align: center; }
+                  .demo-title { font-size: 13px; color: var(--text-muted); margin-bottom: 1.5rem; text-align: center; }
                   .matrices-row { display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; margin-bottom: 1.5rem; }
                   .matrix-panel { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-                  .matrix-label { font-size: 12px; color: #888; letter-spacing: 0.08em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
-                  .matrix-grid { display: grid; gap: 3px; padding: 12px; background: #1a1a1a; border-radius: 8px; border: 1px solid #2a2a2a; }
+                  .matrix-label { font-size: 12px; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+                  .matrix-grid { display: grid; gap: 3px; padding: 12px; background: var(--app-bg); border-radius: 8px; border: 1px solid var(--border-light); transition: background 0.3s, border-color 0.3s; }
                   .demo-cell { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-family: 'JetBrains Mono', monospace; font-weight: 500; border-radius: 4px; cursor: pointer; transition: transform 0.1s, opacity 0.15s; user-select: none; }
                   .demo-cell:hover { transform: scale(1.15); z-index: 2; position: relative; }
                   .demo-cell:active { transform: scale(0.95); }
@@ -339,16 +415,16 @@
                   .demo-cell.modified.on  { background: #22c55e; color: #052e16; }
                   .demo-cell.modified.off { background: #3b82f6; color: #eff6ff; }
                   .controls-row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 1.5rem; }
-                  .controls-row button { font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 6px 14px; cursor: pointer; border-radius: 8px; border: 1px solid #2a2a2a; background: #111; color: #ccc; transition: background 0.15s, border-color 0.15s; }
-                  .controls-row button:hover { background: #1e1e1e; }
+                  .controls-row button { font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 6px 14px; cursor: pointer; border-radius: 8px; border: 1px solid var(--border-light); background: var(--card-bg); color: var(--tech-pill); transition: background 0.15s, border-color 0.15s; }
+                  .controls-row button:hover { background: var(--app-bg); }
                   .controls-row button.accent { border-color: #22c55e; color: #22c55e; }
                   .controls-row button.accent:hover { background: rgba(34,197,94,0.08); }
                   .controls-row button.danger { border-color: #ef4444; color: #ef4444; }
                   .controls-row button.danger:hover { background: rgba(239,68,68,0.08); }
                   .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-                  .stat { background: #1a1a1a; border-radius: 8px; padding: 10px 8px; text-align: center; border: 1px solid #2a2a2a; }
-                  .stat-n { font-size: 20px; font-weight: 500; color: #eee; font-family: 'JetBrains Mono', monospace; }
-                  .stat-l { font-size: 11px; color: #666; margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+                  .stat { background: var(--app-bg); border-radius: 8px; padding: 10px 8px; text-align: center; border: 1px solid var(--border-light); transition: background 0.3s, border-color 0.3s; }
+                  .stat-n { font-size: 20px; font-weight: 500; color: var(--text); font-family: 'JetBrains Mono', monospace; transition: color 0.3s; }
+                  .stat-l { font-size: 11px; color: var(--text-muted); margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
                   .synced-yes { color: #22c55e !important; }
                 </style>
 
@@ -536,6 +612,28 @@ reshaped_data = np.array(matrix_data).reshape(
     </main>
     
     <script>
+        // Theme Toggle Logic
+        const themeBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+        const icon = themeBtn.querySelector('i');
+        
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') {
+            body.classList.add('light-mode');
+            icon.classList.replace('fa-moon', 'fa-sun');
+        }
+        
+        themeBtn.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+            const isLight = body.classList.contains('light-mode');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            if (isLight) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+        });
+
         // Scroll Animations Observer
         document.addEventListener("DOMContentLoaded", () => {
             const observer = new IntersectionObserver((entries) => {

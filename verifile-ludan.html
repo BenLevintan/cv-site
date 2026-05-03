@@ -8,72 +8,160 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
 <script>hljs.highlightAll();</script>
 <style>
+    :root {
+        --bg: #0f0f0f;
+        --bg-nav: rgba(15, 15, 15, 0.8);
+        --text: #f5f5f7;
+        --text-muted: #a1a1a6;
+        --card-bg: #111111;
+        --border: #222222;
+        --border-light: #333333;
+        --accent: #3498DB;
+        --accent-rgb: 52, 152, 219;
+        --btn-bg: #f5f5f7;
+        --btn-text: #0f0f0f;
+        --app-bg: #1a1a1a;
+        --app-title: #2a2a2a;
+        --app-border: rgba(255,255,255,0.08);
+        --term-bg: #0d0d0d;
+        --tech-pill: #ccc;
+    }
+
+    body.light-mode {
+        --bg: #fdfdfd;
+        --bg-nav: rgba(253, 253, 253, 0.8);
+        --text: #111111;
+        --text-muted: #555555;
+        --card-bg: #ffffff;
+        --border: #e0e0e0;
+        --border-light: #d0d0d0;
+        --btn-bg: #111111;
+        --btn-text: #fdfdfd;
+        --app-bg: #ffffff;
+        --app-title: #f0f0f0;
+        --app-border: rgba(0,0,0,0.1);
+        --term-bg: #f8f8f8;
+        --tech-pill: #333;
+    }
+
     /* Scoped Overrides for Data Monitor Theme */
     body {
-        background-color: #0f0f0f;
+        background-color: var(--bg);
+        color: var(--text);
+        transition: background-color 0.3s, color 0.3s;
     }
     .posture-main {
         font-family: 'DM Sans', sans-serif;
-        color: #f5f5f7;
+        color: var(--text);
         max-width: 1048px;
         margin: 0 auto;
         padding: 48px 24px 120px;
     }
+    
+    /* Navigation */
+    nav {
+        position: sticky;
+        top: 0;
+        background: var(--bg-nav);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        padding: 16px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        transition: background 0.3s, border-color 0.3s;
+    }
+
+    .back-link {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: color 0.2s;
+    }
+
+    .back-link:hover {
+        color: var(--accent);
+    }
+
+    .theme-toggle {
+        background: none;
+        border: none;
+        color: var(--text);
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    .theme-toggle:hover {
+        color: var(--accent);
+    }
+    
     .posture-main h1, .posture-main h2, .posture-main h3, .posture-main .mono {
         font-family: 'JetBrains Mono', monospace;
     }
     .posture-main h2 {
-        color: #3498DB;
+        color: var(--accent);
         font-size: 28px;
         margin-top: 80px;
         margin-bottom: 32px;
-        border-bottom: 1px solid rgba(52, 152, 219, 0.2);
+        border-bottom: 1px solid rgba(var(--accent-rgb), 0.2);
         padding-bottom: 12px;
     }
     
     /* Hero */
     .hero { text-align: center; margin-bottom: 64px; }
-    .hero h1 { font-size: 48px; color: #3498DB; margin-bottom: 16px; letter-spacing: -1px; }
-    .hero p { font-size: 18px; color: #a1a1a6; margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto;}
+    .hero h1 { font-size: 48px; color: var(--accent); margin-bottom: 16px; letter-spacing: -1px; }
+    .hero p { font-size: 18px; color: var(--text-muted); margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto;}
     .btn-github {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        background: #f5f5f7;
-        color: #0f0f0f;
+        background: var(--btn-bg);
+        color: var(--btn-text);
         padding: 12px 24px;
         border-radius: 6px;
         font-weight: 700;
         font-family: 'JetBrains Mono', monospace;
         text-decoration: none;
         font-size: 14px;
-        transition: transform 0.2s;
+        transition: transform 0.2s, background 0.3s, color 0.3s;
     }
     .btn-github:hover { transform: translateY(-2px); }
 
     /* App Window Fake Chrome */
     .app-window {
-        background: #1a1a1a;
+        background: var(--app-bg);
         border-radius: 10px;
-        border: 1px solid rgba(255,255,255,0.08);
+        border: 1px solid var(--app-border);
         overflow: hidden;
         box-shadow: 0 24px 48px rgba(0,0,0,0.6);
         margin: 0 auto;
         width: 100%;
         max-width: 860px;
+        transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+    body.light-mode .app-window {
+        box-shadow: 0 12px 24px rgba(0,0,0,0.1);
     }
     .app-titlebar {
         height: 36px;
-        background: #2a2a2a;
+        background: var(--app-title);
         display: flex;
         align-items: center;
         padding: 0 16px;
         gap: 8px;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
+        border-bottom: 1px solid var(--app-border);
+        transition: background 0.3s, border-color 0.3s;
     }
     .app-dot { width: 12px; height: 12px; border-radius: 50%; }
     .app-dot.r { background: #ff5f56; }
@@ -85,11 +173,12 @@
         padding: 24px;
         font-family: 'JetBrains Mono', monospace;
         font-size: 14px;
-        color: #a1a1a6;
+        color: var(--text-muted);
         line-height: 1.6;
-        background: #0d0d0d;
+        background: var(--term-bg);
+        transition: background 0.3s, color 0.3s;
     }
-    .terminal-content .highlight { color: #3498DB; }
+    .terminal-content .highlight { color: var(--accent); }
     .terminal-content .success { color: #2ECC71; }
     .terminal-content .warning { color: #E74C3C; }
 
@@ -100,24 +189,28 @@
         gap: 40px;
         align-items: center;
     }
-    .hiw-text p { margin-bottom: 16px; font-size: 16px; line-height: 1.7; color: #a1a1a6; }
-    .hiw-text strong { color: #f5f5f7; }
+    .hiw-text p { margin-bottom: 16px; font-size: 16px; line-height: 1.7; color: var(--text-muted); }
+    .hiw-text strong { color: var(--text); }
     
     .company-logo-container {
-        background: #111;
+        background: var(--card-bg);
         border-radius: 12px;
-        border: 1px solid #222;
+        border: 1px solid var(--border);
         padding: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
         height: 100%;
+        transition: background 0.3s, border-color 0.3s;
     }
     .company-logo-container img {
         max-width: 80%;
         max-height: 200px;
         object-fit: contain;
         filter: brightness(1.5);
+    }
+    body.light-mode .company-logo-container img {
+        filter: brightness(0.2);
     }
 
     /* Architecture Diagram */
@@ -128,16 +221,17 @@
         gap: 16px;
     }
     .arch-box {
-        background: #1a1a1a;
-        border: 1px solid #333;
+        background: var(--app-bg);
+        border: 1px solid var(--border-light);
         border-radius: 8px;
         padding: 20px;
         flex: 1;
         text-align: center;
+        transition: background 0.3s, border-color 0.3s;
     }
-    .arch-box h4 { font-family: 'JetBrains Mono', monospace; color: #3498DB; margin-bottom: 8px; font-size: 14px; }
-    .arch-box p { font-size: 13px; color: #888; line-height: 1.4; }
-    .arch-arrow { color: #555; font-size: 20px; font-family: 'JetBrains Mono', monospace; }
+    .arch-box h4 { font-family: 'JetBrains Mono', monospace; color: var(--accent); margin-bottom: 8px; font-size: 14px; }
+    .arch-box p { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
+    .arch-arrow { color: var(--text-muted); font-size: 20px; font-family: 'JetBrains Mono', monospace; }
 
     /* Features Grid */
     .feat-grid {
@@ -146,29 +240,30 @@
         gap: 20px;
     }
     .feat-card {
-        background: #111;
-        border: 1px solid #222;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
         border-radius: 12px;
         padding: 24px;
-        transition: border-color 0.3s;
+        transition: border-color 0.3s, background 0.3s;
     }
-    .feat-card:hover { border-color: #3498DB; }
-    .feat-card h4 { color: #f5f5f7; margin-bottom: 8px; font-size: 16px; font-family: 'JetBrains Mono', monospace; }
-    .feat-card p { color: #a1a1a6; font-size: 14px; line-height: 1.6; }
+    .feat-card:hover { border-color: var(--accent); }
+    .feat-card h4 { color: var(--text); margin-bottom: 8px; font-size: 16px; font-family: 'JetBrains Mono', monospace; }
+    .feat-card p { color: var(--text-muted); font-size: 14px; line-height: 1.6; }
 
     /* Code & Tech Pills */
     pre {
-        background: #111 !important;
-        border: 1px solid #222;
+        background: var(--card-bg) !important;
+        border: 1px solid var(--border) !important;
         border-radius: 12px;
         padding: 24px;
         overflow-x: auto;
         font-size: 14px;
         line-height: 1.5;
+        transition: background 0.3s, border-color 0.3s;
     }
     .code-caption {
         font-size: 13px;
-        color: #888;
+        color: var(--text-muted);
         margin-top: 12px;
         text-align: center;
     }
@@ -179,16 +274,17 @@
         justify-content: center;
         margin-top: 64px;
         padding-top: 48px;
-        border-top: 1px solid #222;
+        border-top: 1px solid var(--border);
     }
     .tech-pill {
-        background: #1a1a1a;
-        border: 1px solid #333;
+        background: var(--app-bg);
+        border: 1px solid var(--border-light);
         padding: 8px 16px;
         border-radius: 6px;
         font-family: 'JetBrains Mono', monospace;
         font-size: 14px;
-        color: #ccc;
+        color: var(--tech-pill);
+        transition: background 0.3s, border-color 0.3s, color 0.3s;
     }
 
     /* Motion */
@@ -208,15 +304,11 @@
 </head>
 <body>
     <nav>
-        <div class="nav-logo" onclick="window.location.href='index.html'">Ben Levintan</div>
-        <ul class="nav-links">
-            <li onclick="window.location.href='index.html'">← Back</li>
-        </ul>
+        <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Portfolio</a>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode"><i class="fa-solid fa-moon"></i></button>
     </nav>
     
     <main class="posture-main">
-        <div class="back-btn" style="margin-bottom: 48px;" onclick="window.location.href='index.html'">← Back to Portfolio</div>
-        
         <div class="hero fade-in">
             <h1 class="mono">Verifile_Ludan</h1>
             <p>Cloud & Local Data Integrity Monitor developed for Ludan Group</p>
@@ -386,6 +478,28 @@
     </main>
     
     <script>
+        // Theme Toggle Logic
+        const themeBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+        const icon = themeBtn.querySelector('i');
+        
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') {
+            body.classList.add('light-mode');
+            icon.classList.replace('fa-moon', 'fa-sun');
+        }
+        
+        themeBtn.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+            const isLight = body.classList.contains('light-mode');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            if (isLight) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+            }
+        });
+
         // Scroll Animations Observer
         document.addEventListener("DOMContentLoaded", () => {
             const observer = new IntersectionObserver((entries) => {
